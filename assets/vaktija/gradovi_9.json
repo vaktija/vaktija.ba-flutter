@@ -1,0 +1,946 @@
+[
+  {
+    "IlceUrl": "/tr-TR/12027/banja-luka-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Banovići",
+    "IlceAdiEn": "Banovići",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "0"
+  },
+  {
+    "IlceUrl": "/tr-TR/12027/banja-luka-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Banja Luka",
+    "IlceAdiEn": "Banja Luka",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "1"
+  },
+  {
+    "IlceUrl": "/tr-TR/11993/bihac-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Bihać",
+    "IlceAdiEn": "Bihać",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "2"
+  },
+  {
+    "IlceUrl": "/tr-TR/11985/bijeljina-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Bijeljina",
+    "IlceAdiEn": "Bijeljina",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "3"
+  },
+  {
+    "IlceUrl": "/tr-TR/11985/bijeljina-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Bileća",
+    "IlceAdiEn": "Bileća",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "4"
+  },
+  {
+    "IlceUrl": "/tr-TR/11988/bosanska-gradiska-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Bosanski Brod",
+    "IlceAdiEn": "Bosanski Brod",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "5"
+  },
+  {
+    "IlceUrl": "/tr-TR/11988/bosanska-gradiska-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Bosanska Dubica",
+    "IlceAdiEn": "Bosanska Dubica",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "6"
+  },
+  {
+    "IlceUrl": "/tr-TR/11988/bosanska-gradiska-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Bosanska Gradiška",
+    "IlceAdiEn": "Bosanska Gradiška",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "7"
+  },
+  {
+    "IlceUrl": "/tr-TR/11988/bosanska-gradiska-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Bosansko Grahovo",
+    "IlceAdiEn": "Bosansko Grahovo",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "8"
+  },
+  {
+    "IlceUrl": "/tr-TR/12006/bosanska-krupa-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Bosanska Krupa",
+    "IlceAdiEn": "Bosanska Krupa",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "9"
+  },
+  {
+    "IlceUrl": "/tr-TR/11994/bozanski-petrovac-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Bosanski Novi",
+    "IlceAdiEn": "Bosanski Novi",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "10"
+  },
+  {
+    "IlceUrl": "/tr-TR/11994/bozanski-petrovac-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Bosanski Petrovac",
+    "IlceAdiEn": "Bosanski Petrovac",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "11"
+  },
+  {
+    "IlceUrl": "/tr-TR/11994/bozanski-petrovac-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Bosanski Šamac",
+    "IlceAdiEn": "Bosanski Šamac",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "12"
+  },
+  {
+    "IlceUrl": "/tr-TR/11995/brcko-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Bratunac",
+    "IlceAdiEn": "Bratunac",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "13"
+  },
+  {
+    "IlceUrl": "/tr-TR/11995/brcko-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Brčko",
+    "IlceAdiEn": "Brčko",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "14"
+  },
+  {
+    "IlceUrl": "/tr-TR/11986/bugojno-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Breza",
+    "IlceAdiEn": "Breza",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "15"
+  },
+  {
+    "IlceUrl": "/tr-TR/11986/bugojno-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Bugojno",
+    "IlceAdiEn": "Bugojno",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "16"
+  },
+  {
+    "IlceUrl": "/tr-TR/11986/bugojno-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Busovača",
+    "IlceAdiEn": "Busovača",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "17"
+  },
+  {
+    "IlceUrl": "/tr-TR/11986/bugojno-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Bužim",
+    "IlceAdiEn": "Bužim",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "18"
+  },
+  {
+    "IlceUrl": "/tr-TR/11986/bugojno-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Cazin",
+    "IlceAdiEn": "Cazin",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "19"
+  },
+  {
+    "IlceUrl": "/tr-TR/11986/bugojno-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Čajniče",
+    "IlceAdiEn": "Čajniče",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "20"
+  },
+  {
+    "IlceUrl": "/tr-TR/12008/capljina-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Čapljina",
+    "IlceAdiEn": "Čapljina",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "21"
+  },
+  {
+    "IlceUrl": "/tr-TR/11986/bugojno-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Čelič",
+    "IlceAdiEn": "Čelič",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "22"
+  },
+  {
+    "IlceUrl": "/tr-TR/11986/bugojno-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Čelinac",
+    "IlceAdiEn": "Čelinac",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "23"
+  },
+  {
+    "IlceUrl": "/tr-TR/11986/bugojno-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Čitluk",
+    "IlceAdiEn": "Čitluk",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "24"
+  },
+  {
+    "IlceUrl": "/tr-TR/11996/derventa-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Derventa",
+    "IlceAdiEn": "Derventa",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "25"
+  },
+  {
+    "IlceUrl": "/tr-TR/11997/doboj-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Doboj",
+    "IlceAdiEn": "Doboj",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "26"
+  },
+  {
+    "IlceUrl": "/tr-TR/11990/donji-vakuf-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Donji Vakuf",
+    "IlceAdiEn": "Donji Vakuf",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "27"
+  },
+  {
+    "IlceUrl": "/tr-TR/11986/bugojno-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Drvar",
+    "IlceAdiEn": "Drvar",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "28"
+  },
+  {
+    "IlceUrl": "/tr-TR/11998/foca-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Foča",
+    "IlceAdiEn": "Foča",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "29"
+  },
+  {
+    "IlceUrl": "/tr-TR/11986/bugojno-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Fojnica",
+    "IlceAdiEn": "Fojnica",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "30"
+  },
+  {
+    "IlceUrl": "/tr-TR/11986/bugojno-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Gacko",
+    "IlceAdiEn": "Gacko",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "31"
+  },
+  {
+    "IlceUrl": "/tr-TR/12016/glamoc-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Glamoč",
+    "IlceAdiEn": "Glamoč",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "32"
+  },
+  {
+    "IlceUrl": "/tr-TR/12024/gorazde-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Goražde",
+    "IlceAdiEn": "Goražde",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "33"
+  },
+  {
+    "IlceUrl": "/tr-TR/11987/gornji-vakuf-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Gornji Vakuf",
+    "IlceAdiEn": "Gornji Vakuf",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "34"
+  },
+  {
+    "IlceUrl": "/tr-TR/11999/gracanica-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Gračanica",
+    "IlceAdiEn": "Gračanica",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "35"
+  },
+  {
+    "IlceUrl": "/tr-TR/12000/gradacac-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Gradačac",
+    "IlceAdiEn": "Gradačac",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "36"
+  },
+  {
+    "IlceUrl": "/tr-TR/11986/bugojno-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Grude",
+    "IlceAdiEn": "Grude",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "37"
+  },
+  {
+    "IlceUrl": "/tr-TR/11986/bugojno-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Hadžići",
+    "IlceAdiEn": "Hadžići",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "38"
+  },
+  {
+    "IlceUrl": "/tr-TR/11986/bugojno-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Han-Pijesak",
+    "IlceAdiEn": "Han-Pijesak",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "39"
+  },
+  {
+    "IlceUrl": "/tr-TR/11986/bugojno-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Hlivno",
+    "IlceAdiEn": "Hlivno",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "40"
+  },
+  {
+    "IlceUrl": "/tr-TR/11986/bugojno-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Ilijaš",
+    "IlceAdiEn": "Ilijaš",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "41"
+  },
+  {
+    "IlceUrl": "/tr-TR/12009/jablanica-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Jablanica",
+    "IlceAdiEn": "Jablanica",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "42"
+  },
+  {
+    "IlceUrl": "/tr-TR/11991/jajce-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Jajce",
+    "IlceAdiEn": "Jajce",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "43"
+  },
+  {
+    "IlceUrl": "/tr-TR/11986/bugojno-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Kakanj",
+    "IlceAdiEn": "Kakanj",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "44"
+  },
+  {
+    "IlceUrl": "/tr-TR/11986/bugojno-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Kalesija",
+    "IlceAdiEn": "Kalesija",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "45"
+  },
+  {
+    "IlceUrl": "/tr-TR/11986/bugojno-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Kalinovik",
+    "IlceAdiEn": "Kalinovik",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "46"
+  },
+  {
+    "IlceUrl": "/tr-TR/11986/bugojno-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Kiseljak",
+    "IlceAdiEn": "Kiseljak",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "47"
+  },
+  {
+    "IlceUrl": "/tr-TR/11986/bugojno-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Kladanj",
+    "IlceAdiEn": "Kladanj",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "48"
+  },
+  {
+    "IlceUrl": "/tr-TR/11986/bugojno-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Ključ",
+    "IlceAdiEn": "Ključ",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "49"
+  },
+  {
+    "IlceUrl": "/tr-TR/12001/konjic-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Konjic",
+    "IlceAdiEn": "Konjic",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "50"
+  },
+  {
+    "IlceUrl": "/tr-TR/12023/kosova-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Kotor Varoš",
+    "IlceAdiEn": "Kotor Varoš",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "51"
+  },
+  {
+    "IlceUrl": "/tr-TR/11986/bugojno-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Kreševo",
+    "IlceAdiEn": "Kreševo",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "52"
+  },
+  {
+    "IlceUrl": "/tr-TR/11986/bugojno-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Kupres",
+    "IlceAdiEn": "Kupres",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "53"
+  },
+  {
+    "IlceUrl": "/tr-TR/12019/lipnica-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Laktaši",
+    "IlceAdiEn": "Laktaši",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "54"
+  },
+  {
+    "IlceUrl": "/tr-TR/11989/livno-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Lopare",
+    "IlceAdiEn": "Lopare",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "55"
+  },
+  {
+    "IlceUrl": "/tr-TR/11986/bugojno-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Lukavac",
+    "IlceAdiEn": "Lukavac",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "56"
+  },
+  {
+    "IlceUrl": "/tr-TR/11986/bugojno-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Ljubinje",
+    "IlceAdiEn": "Ljubinje",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "57"
+  },
+  {
+    "IlceUrl": "/tr-TR/12010/ljubuski-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Ljubuški",
+    "IlceAdiEn": "Ljubuški",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "58"
+  },
+  {
+    "IlceUrl": "/tr-TR/11992/maglaj-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Maglaj",
+    "IlceAdiEn": "Maglaj",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "59"
+  },
+  {
+    "IlceUrl": "/tr-TR/12022/modrica-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Modriča",
+    "IlceAdiEn": "Modriča",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "60"
+  },
+  {
+    "IlceUrl": "/tr-TR/12030/mostar-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Mostar",
+    "IlceAdiEn": "Mostar",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "61"
+  },
+  {
+    "IlceUrl": "/tr-TR/12007/mutnik-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Mrkonjič-Grad",
+    "IlceAdiEn": "Mrkonjič-Grad",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "62"
+  },
+  {
+    "IlceUrl": "/tr-TR/11986/bugojno-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Neum",
+    "IlceAdiEn": "Neum",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "63"
+  },
+  {
+    "IlceUrl": "/tr-TR/12011/nevesinje-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Nevesinje",
+    "IlceAdiEn": "Nevesinje",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "64"
+  },
+  {
+    "IlceUrl": "/tr-TR/11986/bugojno-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Novi Travnik",
+    "IlceAdiEn": "Novi Travnik",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "65"
+  },
+  {
+    "IlceUrl": "/tr-TR/12012/potoci-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Odžak",
+    "IlceAdiEn": "Odžak",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "66"
+  },
+  {
+    "IlceUrl": "/tr-TR/11986/bugojno-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Olovo",
+    "IlceAdiEn": "Olovo",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "67"
+  },
+  {
+    "IlceUrl": "/tr-TR/11986/bugojno-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Orašje",
+    "IlceAdiEn": "Orašje",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "68"
+  },
+  {
+    "IlceUrl": "/tr-TR/11986/bugojno-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Pale",
+    "IlceAdiEn": "Pale",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "69"
+  },
+  {
+    "IlceUrl": "/tr-TR/11986/bugojno-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Posušje",
+    "IlceAdiEn": "Posušje",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "70"
+  },
+  {
+    "IlceUrl": "/tr-TR/12002/prijedor-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Prijedor",
+    "IlceAdiEn": "Prijedor",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "71"
+  },
+  {
+    "IlceUrl": "/tr-TR/12017/pucarevo-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Prnjavor",
+    "IlceAdiEn": "Prnjavor",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "72"
+  },
+  {
+    "IlceUrl": "/tr-TR/11986/bugojno-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Prozor",
+    "IlceAdiEn": "Prozor",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "73"
+  },
+  {
+    "IlceUrl": "/tr-TR/11986/bugojno-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Rogatica",
+    "IlceAdiEn": "Rogatica",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "74"
+  },
+  {
+    "IlceUrl": "/tr-TR/11986/bugojno-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Rudo",
+    "IlceAdiEn": "Rudo",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "75"
+  },
+  {
+    "IlceUrl": "/tr-TR/11986/bugojno-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Sanski Most",
+    "IlceAdiEn": "Sanski Most",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "76"
+  },
+  {
+    "IlceUrl": "/tr-TR/12029/saraybosnasarajevo-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Sarajevo",
+    "IlceAdiEn": "Sarajevo",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "77"
+  },
+  {
+    "IlceUrl": "/tr-TR/11986/bugojno-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Skender Vakuf",
+    "IlceAdiEn": "Skender Vakuf",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "78"
+  },
+  {
+    "IlceUrl": "/tr-TR/11986/bugojno-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Sokolac",
+    "IlceAdiEn": "Sokolac",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "79"
+  },
+  {
+    "IlceUrl": "/tr-TR/11986/bugojno-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Srbac",
+    "IlceAdiEn": "Srbac",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "80"
+  },
+  {
+    "IlceUrl": "/tr-TR/12003/srebrenica-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Srebrenica",
+    "IlceAdiEn": "Srebrenica",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "81"
+  },
+  {
+    "IlceUrl": "/tr-TR/11986/bugojno-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Srebrenik",
+    "IlceAdiEn": "Srebrenik",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "82"
+  },
+  {
+    "IlceUrl": "/tr-TR/12013/stolac-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Stolac",
+    "IlceAdiEn": "Stolac",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "83"
+  },
+  {
+    "IlceUrl": "/tr-TR/11986/bugojno-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Šekovići",
+    "IlceAdiEn": "Šekovići",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "84"
+  },
+  {
+    "IlceUrl": "/tr-TR/11986/bugojno-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Šipovo",
+    "IlceAdiEn": "Šipovo",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "85"
+  },
+  {
+    "IlceUrl": "/tr-TR/11986/bugojno-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Široki Brijeg",
+    "IlceAdiEn": "Široki Brijeg",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "86"
+  },
+  {
+    "IlceUrl": "/tr-TR/11986/bugojno-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Teslić",
+    "IlceAdiEn": "Teslić",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "87"
+  },
+  {
+    "IlceUrl": "/tr-TR/11986/bugojno-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Tešanj",
+    "IlceAdiEn": "Tešanj",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "88"
+  },
+  {
+    "IlceUrl": "/tr-TR/11986/bugojno-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Tomislav-Grad",
+    "IlceAdiEn": "Tomislav-Grad",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "89"
+  },
+  {
+    "IlceUrl": "/tr-TR/12025/travnik-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Travnik",
+    "IlceAdiEn": "Travnik",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "90"
+  },
+  {
+    "IlceUrl": "/tr-TR/12004/trebinje-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Trebinje",
+    "IlceAdiEn": "Trebinje",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "91"
+  },
+  {
+    "IlceUrl": "/tr-TR/12018/turbe-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Trnovo",
+    "IlceAdiEn": "Trnovo",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "92"
+  },
+  {
+    "IlceUrl": "/tr-TR/12028/tuzla-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Tuzla",
+    "IlceAdiEn": "Tuzla",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "93"
+  },
+  {
+    "IlceUrl": "/tr-TR/11986/bugojno-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Ugljevik",
+    "IlceAdiEn": "Ugljevik",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "94"
+  },
+  {
+    "IlceUrl": "/tr-TR/11986/bugojno-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Vareš",
+    "IlceAdiEn": "Vareš",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "95"
+  },
+  {
+    "IlceUrl": "/tr-TR/11986/bugojno-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Velika Kladuša",
+    "IlceAdiEn": "Velika Kladuša",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "96"
+  },
+  {
+    "IlceUrl": "/tr-TR/11986/bugojno-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Visoko",
+    "IlceAdiEn": "Visoko",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "97"
+  },
+  {
+    "IlceUrl": "/tr-TR/12015/visegrad-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Višegrad",
+    "IlceAdiEn": "Višegrad",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "98"
+  },
+  {
+    "IlceUrl": "/tr-TR/12026/visoko-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Vitez",
+    "IlceAdiEn": "Vitez",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "99"
+  },
+  {
+    "IlceUrl": "/tr-TR/12014/vitina-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Vlasenica",
+    "IlceAdiEn": "Vlasenica",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "100"
+  },
+  {
+    "IlceUrl": "/tr-TR/11986/bugojno-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Zavidovići",
+    "IlceAdiEn": "Zavidovići",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "101"
+  },
+  {
+    "IlceUrl": "/tr-TR/12031/zenica-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Zenica",
+    "IlceAdiEn": "Zenica",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "102"
+  },
+  {
+    "IlceUrl": "/tr-TR/12005/zvornik-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Zvornik",
+    "IlceAdiEn": "Zvornik",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "103"
+  },
+  {
+  "IlceUrl": "/tr-TR/11986/bugojno-icin-namaz-vakti",
+  "ExtensionData": {},
+  "IlceAdi": "Žepa",
+  "IlceAdiEn": "Žepa",
+  "DrzavaIme": "Bosna i Hercegovina",
+  "IlceID": "104"
+  },
+  {
+    "IlceUrl": "/tr-TR/11986/bugojno-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Žepče",
+    "IlceAdiEn": "Žepče",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "105"
+  },
+  {
+    "IlceUrl": "/tr-TR/11986/bugojno-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Živinice",
+    "IlceAdiEn": "Živinice",
+    "DrzavaIme": "Bosna i Hercegovina",
+    "IlceID": "106"
+  },
+  {
+    "IlceUrl": "/tr-TR/11986/bugojno-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Bijelo Polje",
+    "IlceAdiEn": "Bijelo Polje",
+    "DrzavaIme": "Bosna i Hercegovina / Sandžak",
+    "IlceID": "107"
+  },
+  {
+    "IlceUrl": "/tr-TR/11986/bugojno-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Gusinje",
+    "IlceAdiEn": "Gusinje",
+    "DrzavaIme": "Bosna i Hercegovina / Sandžak",
+    "IlceID": "108"
+  },
+  {
+    "IlceUrl": "/tr-TR/11986/bugojno-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Nova Varoš",
+    "IlceAdiEn": "Nova Varoš",
+    "DrzavaIme": "Bosna i Hercegovina / Sandžak",
+    "IlceID": "109"
+  },
+  {
+    "IlceUrl": "/tr-TR/11986/bugojno-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Novi Pazar",
+    "IlceAdiEn": "Novi Pazar",
+    "DrzavaIme": "Bosna i Hercegovina / Sandžak",
+    "IlceID": "110"
+  },
+  {
+    "IlceUrl": "/tr-TR/11986/bugojno-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Plav",
+    "IlceAdiEn": "Plav",
+    "DrzavaIme": "Bosna i Hercegovina / Sandžak",
+    "IlceID": "111"
+  },
+  {
+    "IlceUrl": "/tr-TR/11986/bugojno-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Pljevlja",
+    "IlceAdiEn": "Pljevlja",
+    "DrzavaIme": "Bosna i Hercegovina / Sandžak",
+    "IlceID": "112"
+  },
+  {
+    "IlceUrl": "/tr-TR/11986/bugojno-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Priboj",
+    "IlceAdiEn": "Priboj",
+    "DrzavaIme": "Bosna i Hercegovina / Sandžak",
+    "IlceID": "113"
+  },
+  {
+    "IlceUrl": "/tr-TR/11986/bugojno-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Prijepolje",
+    "IlceAdiEn": "Prijepolje",
+    "DrzavaIme": "Bosna i Hercegovina / Sandžak",
+    "IlceID": "114"
+  },
+  {
+    "IlceUrl": "/tr-TR/11986/bugojno-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Rožaje",
+    "IlceAdiEn": "Rožaje",
+    "DrzavaIme": "Bosna i Hercegovina / Sandžak",
+    "IlceID": "115"
+  },
+  {
+    "IlceUrl": "/tr-TR/11986/bugojno-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Sjenica",
+    "IlceAdiEn": "Sjenica",
+    "DrzavaIme": "Bosna i Hercegovina / Sandžak",
+    "IlceID": "116"
+  },
+  {
+    "IlceUrl": "/tr-TR/11986/bugojno-icin-namaz-vakti",
+    "ExtensionData": {},
+    "IlceAdi": "Tutin",
+    "IlceAdiEn": "Tutin",
+    "DrzavaIme": "Bosna i Hercegovina / Sandžak",
+    "IlceID": "117"
+  }
+]
