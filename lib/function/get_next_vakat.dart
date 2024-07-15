@@ -1,6 +1,6 @@
 import 'package:vaktijaba_fl/data/data.dart';
 
-getNextVakat(currentTime, grad, mjesec, dan, dst) {
+getNextVakat(int currentTime, int grad, int mjesec, int dan, int dst) {
   int index;
   for (int i = 0; i < 6; i++) {
     int vakatTime = vaktijaData['months'][mjesec]['days'][dan]

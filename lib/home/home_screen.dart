@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:vaktijaba_fl/data/data.dart';
-import 'package:vaktijaba_fl/function/dark_mode_check.dart';
-import 'package:vaktijaba_fl/home_tabs/tab_calendar.dart';
-import 'package:vaktijaba_fl/home_tabs/tab_kibla.dart';
-import 'package:vaktijaba_fl/home_tabs/tab_settings.dart';
-import 'package:vaktijaba_fl/home_tabs/tab_vaktija.dart';
+import 'package:vaktijaba_fl/home/home_tabs/tab_calendar.dart';
+import 'package:vaktijaba_fl/home/home_tabs/tab_kibla.dart';
+import 'package:vaktijaba_fl/home/home_tabs/tab_kibla_compass.dart';
+import 'package:vaktijaba_fl/home/home_tabs/tab_settings.dart';
+import 'package:vaktijaba_fl/home/home_tabs/tab_vaktija.dart';
 import 'package:vaktijaba_fl/services/calendar_state_provider.dart';
+import 'package:vaktijaba_fl/services/notification_service.dart';
+import 'package:vaktijaba_fl/services/state_provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -29,20 +32,34 @@ class _HomeScreenState extends State<HomeScreen>
         });
         setSelectedDate(context, DateTime.now());
       });
+    loadNotifications();
+  }
+
+  Future handleLocalNotification(String? payload) async {
+   print('notification tapped');
+  }
+
+  loadNotifications() async {
+    //initLocalNotification() async {
+      await NotificationService().init();
+   // }
+    Future.delayed(Duration(milliseconds: 300),(){
+      Provider.of<VaktijaDateTimeProvider>(context, listen: false).startVaktijaTimer();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    bool isDarkModeOn = isDarkMode(context);
-
-    List tabs = [
+    //bool isDarkModeOn = isDarkMode(context);
+    Color iconColor = Theme.of(context).indicatorColor;
+    List tabs = const [
       HomeTabVaktija(),
       HomeTabCalendar(),
       HomeTabKibla(),
       HomeTabSettings()
     ];
     return Scaffold(
-      backgroundColor: isDarkModeOn ? Colors.black : Colors.white,
+      /// backgroundColor: isDarkModeOn ? Colors.black : Colors.white,
       extendBodyBehindAppBar: true,
       extendBody: true,
       body: SafeArea(
@@ -55,8 +72,8 @@ class _HomeScreenState extends State<HomeScreen>
       bottomNavigationBar: SafeArea(
         child: TabBar(
           controller: _tabController,
-          unselectedLabelColor: colorWhite,
-          labelColor: colorGreyDark,
+          unselectedLabelColor: iconColor.withOpacity(0.3),
+          labelColor: iconColor,
           indicatorColor: Colors.transparent,
           tabs: List.generate(
               tabIcons.length,
@@ -65,8 +82,8 @@ class _HomeScreenState extends State<HomeScreen>
                       tabIcons[index],
                       height: 24.0,
                       color: currentTab == index
-                          ? (isDarkModeOn ? Colors.white : colorTitle)
-                          : colorSubtitle,
+                          ? iconColor
+                          : iconColor.withOpacity(0.3),
                     ),
                   )),
         ),

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:vaktijaba_fl/components/horizontal_separator.dart';
-import 'package:vaktijaba_fl/components/text_styles/text_title.dart';
-import 'package:vaktijaba_fl/components/text_styles/text_title_big.dart';
+import 'package:vaktijaba_fl/components/text_styles/text_body_medium.dart';
+import 'package:vaktijaba_fl/components/text_styles/text_headline_small.dart';
+import 'package:vaktijaba_fl/data/constants.dart';
 import 'package:vaktijaba_fl/data/data.dart';
 import 'package:vaktijaba_fl/function/dark_mode_check.dart';
 import 'package:vaktijaba_fl/function/open_new_screen.dart';
@@ -34,11 +35,11 @@ class _LocationFieldHomeState extends State<LocationFieldHome> {
           children: [
             Icon(
               Icons.location_on,
-              size: 32,
-              color: isDarkModeOn ? colorWhite : colorGreyDark,
+              size: 22.0,
+              color: Theme.of(context).indicatorColor,// isDarkModeOn ? colorWhite : colorGreyDark,
             ),
-            HorizontalListSeparator(width: 1,),
-            TextTitleBig(
+            gap16,
+            TextHeadlineSmall(
               text: gradovi[grad],
               fontSize: 32.0,
             ),

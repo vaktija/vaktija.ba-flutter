@@ -115,16 +115,23 @@ class _scrollItem extends StatelessWidget {
   Widget build(BuildContext context) {
     bool isDarkModeOn = isDarkMode(context);
     final List mjeseci = isHijri ? mjeseciHidz : mjeseciFullName;
+    TextStyle textStyle = Theme.of(context).textTheme.titleLarge!;
     return Center(
       child: Text(
         isMonth ? mjeseci[index] : (index + 1).toString().padLeft(2, '0'),
         textScaleFactor: 1.0,
-        style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.w600,
-            color: isSelected
-                ? (isDarkModeOn ? Colors.white : colorTitle)
-                : colorSubtitle),
+        style: textStyle.copyWith(
+          fontWeight: FontWeight.w600,
+          color: isSelected ? null : textStyle.color!.withOpacity(0.5),
+        ),
+        //
+        //
+        // TextStyle(
+        //     fontSize: 20,
+        //     fontWeight: FontWeight.w600,
+        //     color: isSelected
+        //         ? (isDarkModeOn ? Colors.white : colorTitle)
+        //         : colorSubtitle),
       ),
     );
   }

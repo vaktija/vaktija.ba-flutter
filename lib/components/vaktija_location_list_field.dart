@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vaktijaba_fl/components/text_styles/text_list_field.dart';
-import 'package:vaktijaba_fl/components/text_styles/text_title.dart';
+import 'package:vaktijaba_fl/components/text_styles/text_body_medium.dart';
 import 'package:vaktijaba_fl/data/data.dart';
 
 class LocationListField extends StatelessWidget {
@@ -38,7 +38,7 @@ class LocationListField extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              TextTitle(
+              TextBodyMedium(
                 text: title,
                 bold: false,
               ),

@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 bool isDarkMode(context){
-  var brightness = MediaQuery.of(context).platformBrightness;
+  var brightness = Theme.of(context).brightness;
   bool darkMode = brightness == Brightness.dark ? true : false;
   return darkMode;
 }

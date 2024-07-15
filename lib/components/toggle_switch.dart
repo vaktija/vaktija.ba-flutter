@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vaktijaba_fl/app_theme/theme_data.dart';
 import 'package:vaktijaba_fl/data/data.dart';
 
 class ToggleSwitch extends StatefulWidget {
@@ -25,7 +26,7 @@ class _ToggleSwitchState extends State<ToggleSwitch> {
         width: 51, //s.width / 4,
         height: 31, //(s.width / 4) * 120 / 236,
         decoration: BoxDecoration(
-          color: colorSubtitle, // Color(0xffDDE1E3),
+          color: AppColors.colorSubtitle, // Color(0xffDDE1E3),
           borderRadius: BorderRadius.circular(100),
         ),
         child: Stack(
@@ -39,7 +40,7 @@ class _ToggleSwitchState extends State<ToggleSwitch> {
                 width: 31 + (20.0 * isOn),
                 height: 31,
                 decoration: BoxDecoration(
-                  color: isOn != 0 ? colorSwitchActive : colorSubtitle,
+                  color: isOn != 0 ? AppColors.colorSwitchActive : AppColors.colorSubtitle,
                   borderRadius: BorderRadius.circular(100),
                 ),
               ),

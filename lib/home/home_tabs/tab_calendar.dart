@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:hijri/hijri_calendar.dart';
 import 'package:quiver/time.dart';
+import 'package:vaktijaba_fl/app_theme/theme_data.dart';
 import 'package:vaktijaba_fl/components/calender_picker_wheel.dart';
 import 'package:vaktijaba_fl/components/horizontal_separator.dart';
-import 'package:vaktijaba_fl/components/text_styles/text_title.dart';
+import 'package:vaktijaba_fl/components/text_styles/text_body_medium.dart';
 import 'package:vaktijaba_fl/components/vertical_separator.dart';
+import 'package:vaktijaba_fl/data/constants.dart';
 import 'package:vaktijaba_fl/data/data.dart';
 import 'package:vaktijaba_fl/date_screen/selected_date_screen.dart';
 import 'package:vaktijaba_fl/function/dark_mode_check.dart';
@@ -125,22 +127,22 @@ class _HomeTabCalendarState extends State<HomeTabCalendar> {
 
   @override
   Widget build(BuildContext context) {
-    bool isDarkModeOn = isDarkMode(context);
-    var activeColor = isDarkModeOn ? Colors.white : colorGreyDark;
-    var inactiveColor = isDarkModeOn ? colorGreyLight : colorGreyMedium;
+    //bool isDarkModeOn = isDarkMode(context);
+    Color activeColor = Theme.of(context).textTheme.bodyLarge!.color!;
+    Color inactiveColor = Theme.of(context).secondaryHeaderColor;
     return Scaffold(
-      backgroundColor: isDarkModeOn ? Colors.black : Colors.white,
+      //backgroundColor: isDarkModeOn ? Colors.black : Colors.white,
       extendBodyBehindAppBar: false,
       appBar: AppBar(
-        title: const TextTitle(
+        title: const TextBodyMedium(
           text: 'Odaberi datum',
           bold: true,
         ),
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        shadowColor: Colors.transparent,
+        //backgroundColor: Colors.transparent,
+       // elevation: 0,
+        //shadowColor: Colors.transparent,
         centerTitle: true,
-        iconTheme: IconThemeData(color: colorTitle),
+        iconTheme: IconThemeData(color: AppColors.colorTitle),
         leading: Container(),
         actions: [
           Padding(
@@ -155,18 +157,17 @@ class _HomeTabCalendarState extends State<HomeTabCalendar> {
                   openNewScreen(
                       context, SelectedDateScreen(), 'namaska vremena');
                 },
-                child: TextTitle(
+                child: TextBodyMedium(
                   text: 'Prikaži',
-                  color: colorAction,
+                  color: AppColors.colorAction,
                 )),
           )
         ],
       ),
       body: Column(
         children: [
-          VerticalListSeparator(
-            height: 6,
-          ),
+          gap24,
+          gap24,
           InkWell(
             enableFeedback: false,
             splashColor: Colors.transparent,
@@ -193,33 +194,32 @@ class _HomeTabCalendarState extends State<HomeTabCalendar> {
                     flex: 1,
                     child: Align(
                       alignment: Alignment.centerRight,
-                      child: TextTitle(
+                      child: TextBodyMedium(
                         text: 'Gregorijanski',
                         bold: calendarIndex == 0 ? true : false,
-                        color:
-                        calendarIndex == 0 ? activeColor : inactiveColor,
+                        color: calendarIndex == 0 ? activeColor : inactiveColor,
                       ),
                     ),
                   ),
-                  const HorizontalListSeparator(
-                    width: 1,
-                  ),
+                  gap16,
                   Container(
                     width: 36,
                     child: Center(
-                      child: calendarIndex == 0
-                          ? Icon(Icons.arrow_forward, color: isDarkModeOn ? Colors.white : colorGreyDark,)
-                          : Icon(Icons.arrow_back, color: isDarkModeOn ? Colors.white : colorGreyDark,),
+                      child: Icon(
+                        calendarIndex == 0
+                            ? Icons.arrow_forward
+                            : Icons.arrow_back,
+                        color: Theme.of(context).indicatorColor,
+                        size: 20.0,
+                      ),
                     ),
                   ),
-                  HorizontalListSeparator(
-                    width: 1,
-                  ),
+                  gap16,
                   Expanded(
                     flex: 1,
                     child: Align(
                       alignment: Alignment.centerLeft,
-                      child: TextTitle(
+                      child: TextBodyMedium(
                         text: 'Hidžretski',
                         bold: calendarIndex == 1 ? true : false,
                         color: calendarIndex == 1 ? activeColor : inactiveColor,

@@ -1,4 +1,3 @@
-
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
@@ -6,7 +5,7 @@ import 'package:timezone/timezone.dart' as tz;
 class NotificationService {
   //NotificationService a singleton object
   static final NotificationService _notificationService =
-  NotificationService._internal();
+      NotificationService._internal();
 
   factory NotificationService() {
     return _notificationService;
@@ -17,103 +16,196 @@ class NotificationService {
   static const channelId = '123';
 
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-  FlutterLocalNotificationsPlugin();
+      FlutterLocalNotificationsPlugin();
 
   Future<void> init() async {
     final AndroidInitializationSettings initializationSettingsAndroid =
-    AndroidInitializationSettings('launch_image');
+        AndroidInitializationSettings('notification_icon');
 
-    final IOSInitializationSettings initializationSettingsIOS =
-    IOSInitializationSettings(
-      requestSoundPermission: false,
-      requestBadgePermission: false,
+    final DarwinInitializationSettings initializationSettingsIOS =
+        DarwinInitializationSettings(
       requestAlertPermission: false,
+      requestBadgePermission: false,
+      requestSoundPermission: false,
+      onDidReceiveLocalNotification:
+          (int id, String? title, String? body, String? payload) async {
+        if (payload != null) {
+          selectNotification(payload);
+        }
+      },
     );
 
     final InitializationSettings initializationSettings =
-    InitializationSettings(
-        android: initializationSettingsAndroid,
-        iOS: initializationSettingsIOS);
-
+        InitializationSettings(
+            android: initializationSettingsAndroid,
+            iOS: initializationSettingsIOS);
     tz.initializeTimeZones();
-
-    await flutterLocalNotificationsPlugin.initialize(initializationSettings,
-        onSelectNotification: selectNotification);
+    await flutterLocalNotificationsPlugin.initialize(initializationSettings);
   }
 
-  requestIOSPermissions() {
+  requestPermissions() {
     flutterLocalNotificationsPlugin
         .resolvePlatformSpecificImplementation<
         IOSFlutterLocalNotificationsPlugin>()
         ?.requestPermissions(
-      alert: true,
-      badge: true,
-      sound: true,
-    );
+        alert: true,
+        badge: true,
+        sound: true,
+        provisional: false,
+        critical: false);
+    flutterLocalNotificationsPlugin
+        .resolvePlatformSpecificImplementation<
+        AndroidFlutterLocalNotificationsPlugin>()
+        ?.requestNotificationsPermission();
   }
 
-  AndroidNotificationDetails _androidNotificationDetails =
-  AndroidNotificationDetails(
-    'channel ID',
-    'channel name',
+
+
+
+  AndroidNotificationDetails androidNotificationDetails =
+  const AndroidNotificationDetails(
+    '1000',
+    'Isl. zajednica notifikacija',
     playSound: true,
-    ongoing: true,
+    ongoing: false,
     autoCancel: true,
     priority: Priority.high,
     importance: Importance.high,
   );
 
-  var _iOSPlatformChannelSpecifics = IOSNotificationDetails(
+  final DarwinNotificationDetails iOSPlatformChannelSpecifics =
+  const DarwinNotificationDetails(
+    //presentAlert: false,
+    //presentBadge: false,
     presentSound: true,
-    //presentAlert: true
   );
 
+
   Future<void> showNotifications(id, title, body, payload) async {
-    await flutterLocalNotificationsPlugin.show(
-        id ?? 0,
-        title,
-        body,
-        NotificationDetails(
-            android: _androidNotificationDetails,
-            iOS: _iOSPlatformChannelSpecifics),
-        payload: payload ?? '');
+    print(title);
+    try{
+      await flutterLocalNotificationsPlugin.show(
+          id ?? 0,
+          title,
+          body,
+          NotificationDetails(
+              android: androidNotificationDetails,
+              iOS: iOSPlatformChannelSpecifics),
+          payload: payload ?? '');
+    } catch(e){
+      print(e);
+    }
   }
 
-  Future<void> scheduleNotifications(id, title, body, duration) async {
+  Future<void> dnevnaVaktijaNotification(
+      int id, title, body, payload, DateTime date, timeOut) async {
+    //String longdata = body.toString().replaceAll(' | ', '\n');
+    BigTextStyleInformation bigTextStyleInformation = BigTextStyleInformation(
+      body,
+      htmlFormatSummaryText: true,
+      htmlFormatContent: true,
+      htmlFormatBigText: true,
+    );
+    AndroidNotificationDetails androidDnevnaVaktija =
+    AndroidNotificationDetails(
+      '10', 'Vaktija - dnevna',
+      playSound: false,
+      enableVibration: false,
+      ongoing: true,
+      autoCancel: false,
+      priority: Priority.low,
+      importance: Importance.low,
+      timeoutAfter: int.parse(timeOut.round().toString()) * 1000,
+      showWhen: false,
+      //sound: UriAndroidNotificationSound("assets/vaktija/vaktija_audio_not.mp3"),
+      visibility: NotificationVisibility.public,
+      styleInformation: bigTextStyleInformation,
+    );
+
+    DarwinNotificationDetails iOSDnevnaVaktija = DarwinNotificationDetails(
+      presentSound: false,
+      presentAlert: false
+    );
+
+    NotificationDetails platformChannelSpecificsSchedule = NotificationDetails(
+        android: androidDnevnaVaktija, iOS: iOSDnevnaVaktija);
+    if (date.isBefore(DateTime.now())) {
+      await flutterLocalNotificationsPlugin.show(
+          id, title, body, platformChannelSpecificsSchedule,
+          payload: id.toString());
+    } else {
+      await flutterLocalNotificationsPlugin.zonedSchedule(id, title, body,
+          _dailySchedule(date), platformChannelSpecificsSchedule,
+          androidAllowWhileIdle: true,
+          uiLocalNotificationDateInterpretation:
+          UILocalNotificationDateInterpretation.absoluteTime,
+          payload: id.toString());
+    }
+  }
+
+  Future<void> scheduleNotifications(
+      int id, title, body, date, hours, minutes, timeout) async {
+    AndroidNotificationDetails androidPlatformChannelSpecifics =
+        AndroidNotificationDetails('vaktovi-id', 'Vaktija',
+            playSound: true,
+            ongoing: true,
+            autoCancel: false,
+            priority: Priority.high,
+            importance: Importance.high,
+            showWhen: true,
+            enableVibration: true,
+            timeoutAfter: int.parse(timeout.round().toString()) * 1000,
+            visibility: NotificationVisibility.public);
+
+    DarwinNotificationDetails iOSPlatformChannelSpecifics =
+        const DarwinNotificationDetails(
+      presentSound: true,
+      presentAlert: true
+    );
+
+   // print('id ${id}');
     await flutterLocalNotificationsPlugin.zonedSchedule(
-        id ?? 0,
-        title ?? "Notification Title",
-        body ?? "This is the Notification Body!",
-        tz.TZDateTime.now(tz.local).add(Duration(seconds: duration ?? 10)),
-        NotificationDetails(android: _androidNotificationDetails),
+        id,
+        title,
+        body,
+        _nextVakat(date, hours, minutes),
+        NotificationDetails(
+            android: androidPlatformChannelSpecifics,
+            iOS: iOSPlatformChannelSpecifics),
         androidAllowWhileIdle: true,
         uiLocalNotificationDateInterpretation:
-        UILocalNotificationDateInterpretation.absoluteTime,
+            UILocalNotificationDateInterpretation.absoluteTime,
         payload: id.toString());
   }
 
   Future<void> cancelNotifications(int id) async {
+   // print('notification canceld ($id)');
     await flutterLocalNotificationsPlugin.cancel(id);
   }
 
   Future<void> cancelAllNotifications() async {
     await flutterLocalNotificationsPlugin.cancelAll();
   }
+
+  tz.TZDateTime _nextVakat(date, hours, minutes) {
+    final DateTime nowNew =
+        DateTime(date.year, date.month, date.day, hours, minutes)
+            .subtract(date.timeZoneOffset);
+    tz.TZDateTime scheduledDate = tz.TZDateTime(tz.local, nowNew.year,
+        nowNew.month, nowNew.day, nowNew.hour, nowNew.minute);
+    return scheduledDate;
+  }
+
+  tz.TZDateTime _dailySchedule(date) {
+    final DateTime nowNew = DateTime(date.year, date.month, date.day, 1, 0)
+        .subtract(date.timeZoneOffset);
+    tz.TZDateTime scheduledDate = tz.TZDateTime(tz.local, nowNew.year,
+        nowNew.month, nowNew.day, nowNew.hour, nowNew.minute);
+   // print(scheduledDate);
+    return scheduledDate;
+  }
 }
 
 Future selectNotification(String? payload) async {
-  //HomePageData.homePageInitialIndex = 9;
   NotificationService().cancelNotifications(int.parse(payload!));
-  print(payload);
-
-  /*Navigator.of(context).pushAndRemoveUntil(
-      MaterialPageRoute(
-          builder: (context) => HomePage(),
-          settings: RouteSettings(name: 'homePage')),
-          (route) => false);*/
-
-  /*await Navigator.pushReplacement(
-    context,
-    MaterialPageRoute<void>(builder: (context) => HomePage()),
-  );*/
 }

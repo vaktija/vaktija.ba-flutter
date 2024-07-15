@@ -1,5 +1,5 @@
 
-String vaktijaSec2Min(int value) {
+String vaktijaSec2HourString(int value) {
   int h, m, s;
 
   h = value ~/ 3600;
@@ -13,4 +13,12 @@ String vaktijaSec2Min(int value) {
 
   String vakatVrijeme = "$sati:$minute";
   return vakatVrijeme;
+}
+
+List vaktijaSec2HoursMinutes(value){
+
+  int hours = value ~/ 3600;
+  int minutes = ((value - hours * 3600)) ~/ 60;
+
+  return [hours, minutes];
 }

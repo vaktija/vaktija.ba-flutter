@@ -1,17 +1,15 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:hijri/hijri_calendar.dart';
 import 'package:provider/provider.dart';
-import 'package:vaktijaba_fl/function/get_next_vakat.dart';
+import 'package:vaktijaba_fl/function/check_dst.dart';
+import 'package:vaktijaba_fl/function/date_data_to_string.dart';
+import 'package:vaktijaba_fl/function/save_function.dart';
 
 import '../data/data.dart';
-import '../function/save_function.dart';
 import '../function/sec_2_hhmm.dart';
 import 'notification_service.dart';
-
-void startVaktijaTimerCheck(context) {
-  Provider.of<VaktijaDateTimeProvider>(context, listen: false)
-      .startVaktijaTimer();
-}
 
 void setVaktijaLocation(context, index) {
   Provider.of<VaktijaDateTimeProvider>(context, listen: false)
@@ -20,7 +18,7 @@ void setVaktijaLocation(context, index) {
 
 void setVaktijaNotification(context, bool) {
   Provider.of<VaktijaDateTimeProvider>(context, listen: false)
-      .showVaktijaNotification(bool);
+      .setDnevnaVaktijaNotification(bool);
 }
 
 void setVaktijaPodneVrijeme(context, bool) {
@@ -53,65 +51,57 @@ void setVakatNotifikacijaTime(context, value, index) {
       .setNotifikacijaSoundTime(value, index);
 }
 
-void restoreSavedVaktijaData(context, vaktijaSaveData) {
-  Provider.of<VaktijaDateTimeProvider>(context, listen: false)
-      .restoreVaktijaData(vaktijaSaveData);
-}
-
 vaktijaStateProvider(context) {
   return Provider.of<VaktijaDateTimeProvider>(context);
 }
 
-final now = DateTime.now();
-final nowHijri = HijriCalendar.now();
+//initData
+
+int currentLocationInit = 77;
+List vaktoviNotifikacijeTimeInit = [900, 900, 900, 900, 900, 900, 900];
+List vaktoviNotifikacijaSoundInit = [true, true, true, true, true, true, true];
+List vaktoviAlarmTimeInit = [1800, 1800, 1800, 1800, 1800, 1800, 1800];
+List vaktoviAlarmSoundInit = [false, false, false, false, false, false, false];
+bool podneStvarnoVrijemeInit = false;
+bool vaktijaDzumaVrijemeInit = false;
+bool showDailyVaktijaInit = false;
 
 class VaktijaDateTimeProvider extends ChangeNotifier {
-  int _dst = DateTime.now().timeZoneOffset.inHours == 2 ? 3600 : 0;
+  List _vaktoviNotifikacijeTime = vaktoviNotifikacijeTimeInit;
+  List _vaktoviAlarmTime = vaktoviAlarmTimeInit;
+  List _vaktoviAlarmSound = vaktoviAlarmSoundInit;
+  List _vaktoviNotifikacijaSound = vaktoviNotifikacijaSoundInit;
 
-  List _vaktoviNotifikacijeTime = [900, 900, 900, 900, 900, 900, 900];
-
-  List _vaktoviAlarmTime = [1800, 1800, 1800, 1800, 1800, 1800, 1800];
-
-  List _vaktoviAlarmSound = [false, false, false, false, false, false, false];
-
-  List _vaktoviNotifikacijaSound = [true, true, true, true, true, true, true];
-
-  int _currentWeekDay = now.weekday - 1;
-  int _currentDay = now.day - 1;
-  int _currentMonth = now.month - 1;
-  int _currentYear = now.year;
-  int _currentDayHijri = nowHijri.hDay;
-  int _currentMonthHijri = nowHijri.hMonth - 1;
-  int _currentYearHijri = nowHijri.hYear;
-  int _currentTime = (now.hour * 3600) + (now.minute * 60) + now.second;
-  int _currentLocation = 77;
+  int _currentLocation = currentLocationInit;
   int _currentCountry = 2;
-  int _nextVakat = 0;
 
-  //bool _playAlarmSound = false;
-  //bool _playNotificationSound = false;
+  // bool _notificationScheduled = false;
+  bool _podneStvarnoVrijeme = podneStvarnoVrijemeInit;
 
-  bool _notificationScheduled = false;
-  bool _podneStvarnoVrijeme = false;
-  bool _vaktijaNotification = false;
-  bool _vaktijaNotificationSet = false;
-  bool _vaktijaDzumaVrijeme = false;
+  //bool _vaktijaNotification = false;
+  bool _showDailyVaktija = showDailyVaktijaInit;
 
-  int get currentTimeVaktija => _currentTime;
+  // bool _vaktijaNotificationSet = false;
+  bool _vaktijaDzumaVrijeme = vaktijaDzumaVrijemeInit;
 
-  int get currentWeekDay => _currentWeekDay;
-
-  int get currentDay => _currentDay;
-
-  int get currentMonth => _currentMonth;
-
-  int get currentYear => _currentYear;
-
-  int get currentDayHijri => _currentDayHijri;
-
-  int get currentMonthHijri => _currentMonthHijri;
-
-  int get currentYearHijri => _currentYearHijri;
+  // int get currentTimeVaktija => _currentTime;
+  //
+  // int get currentWeekDay => _currentWeekDay;
+  //
+  // int get currentDay => _currentDay;
+  //
+  // int get currentMonth => _currentMonth;
+  //
+  // int get currentYear => _currentYear;
+  //
+  // int get currentDayHijri => _currentDayHijri;
+  //
+  // int get currentMonthHijri => _currentMonthHijri;
+  //
+  // int get currentYearHijri => _currentYearHijri;
+  // int get nextVakat => _nextVakat;
+  //
+  // //int get dstTime => _dst;
 
   int get currentLocation => _currentLocation;
 
@@ -121,11 +111,9 @@ class VaktijaDateTimeProvider extends ChangeNotifier {
 
   bool get dzumaVrijemeAdet => _vaktijaDzumaVrijeme;
 
-  bool get vaktijaNotification => _vaktijaNotification;
+  //bool get vaktijaNotification => _vaktijaNotification;
 
-  int get nextVakat => _nextVakat;
-
-  int get dstTime => _dst;
+  bool get showDailyVaktija => _showDailyVaktija;
 
   List get vaktoviNotifikacije => _vaktoviNotifikacijeTime;
 
@@ -136,36 +124,16 @@ class VaktijaDateTimeProvider extends ChangeNotifier {
   List get playVaktijaNotifikacijaSound => _vaktoviNotifikacijaSound;
 
   void startVaktijaTimer() {
-    _currentTime = (DateTime.now().hour * 3600) +
-        (DateTime.now().minute * 60) +
-        DateTime.now().second;
-    _currentWeekDay = DateTime.now().weekday - 1;
-    _currentDay = DateTime.now().day - 1;
-    _currentMonth = DateTime.now().month - 1;
-    _currentYear = DateTime.now().year;
-    _currentDayHijri = HijriCalendar.now().hDay;
-    _currentMonthHijri = HijriCalendar.now().hMonth - 1;
-    _currentYearHijri = HijriCalendar.now().hYear;
-    _dst = DateTime.now().timeZoneOffset.inHours == 2 ? 3600 : 0;
-    _nextVakat = getNextVakat(
-        _currentTime, _currentLocation, _currentMonth, _currentDay, _dst);
-    notifyListeners();
-    if (_currentTime < 1 || !_notificationScheduled) {
-      _vaktoviScheduleNotification();
-    }
-    if (_vaktijaNotification) {
-      if (_currentTime < 1 || !_vaktijaNotificationSet) {
-        _showVaktijaNotifikacija();
-      }
-    }
-    resetTimeDate();
+    _vaktoviScheduleNotification();
+    _showDnevnaVaktija();
+    //_showVaktijaNotifikacija();
   }
 
-  void resetTimeDate() {
-    Future.delayed(Duration(seconds: 1), () {
-      startVaktijaTimer();
-    });
-  }
+  // void resetTimeDate() {
+  //   Future.delayed(Duration(seconds: 1), () {
+  //     startVaktijaTimer();
+  //   });
+  // }
 
   void setAlarmSound(bool, index) {
     _vaktoviAlarmSound[index] = bool;
@@ -175,130 +143,254 @@ class VaktijaDateTimeProvider extends ChangeNotifier {
 
   void setAlarmSoundTime(value, index) {
     _vaktoviAlarmTime[index] = value;
+    startVaktijaTimer();
     notifyListeners();
     saveVaktijaData();
   }
 
   void setNotifikacijaSound(bool, index) {
     _vaktoviNotifikacijaSound[index] = bool;
-    _notificationScheduled = false;
+    //_notificationScheduled = false;
+    startVaktijaTimer();
     notifyListeners();
     saveVaktijaData();
   }
 
   void setNotifikacijaSoundTime(value, index) {
     _vaktoviNotifikacijeTime[index] = value;
-    _notificationScheduled = false;
+    //_notificationScheduled = false;
+    startVaktijaTimer();
     notifyListeners();
     saveVaktijaData();
   }
 
   void setVaktijaLocation(index) {
     _currentLocation = index;
-    _notificationScheduled = false;
-    _vaktijaNotificationSet = false;
+    //_notificationScheduled = false;
+    // _vaktijaNotificationSet = false;
+    startVaktijaTimer();
     notifyListeners();
     saveVaktijaData();
   }
 
   void setPodneVrijeme(bool) {
     _podneStvarnoVrijeme = bool;
-    _notificationScheduled = false;
-    _vaktijaNotificationSet = false;
+    // _notificationScheduled = false;
+    // _vaktijaNotificationSet = false;
+    startVaktijaTimer();
     notifyListeners();
     saveVaktijaData();
   }
 
   void setDzumaVrijeme(bool) {
     _vaktijaDzumaVrijeme = bool;
-    _notificationScheduled = false;
-    _vaktijaNotificationSet = false;
+
+    /// _notificationScheduled = false;
+    // _vaktijaNotificationSet = false;
+    startVaktijaTimer();
     notifyListeners();
     saveVaktijaData();
   }
 
-  void showVaktijaNotification(bool) {
-    _vaktijaNotification = bool;
+  void setDnevnaVaktijaNotification(bool) {
+    //_vaktijaNotification;
+    _showDailyVaktija = bool;
+    startVaktijaTimer();
     notifyListeners();
-    if (_vaktijaNotification) {
-      _showVaktijaNotifikacija();
-    }
+    // if (_vaktijaNotification) {
+    //   _showDnevnaVaktija();
+    // }
     saveVaktijaData();
   }
 
-  void _showVaktijaNotifikacija() {
-    if (_vaktijaNotificationSet) {
-      _vaktijaNotificationSet = false;
-      NotificationService().cancelNotifications(0);
-    } else {
-      _vaktijaNotificationSet = true;
-      int id = 0;
-      String title = 'Vaktija.ba | ' + [_currentLocation].toString();
-      String body = (List.generate(
-              vaktoviName.length,
-              (index) =>
-                  vaktoviNotifikacija[index] +
-                  ': ' +
-                  vaktijaSec2Min(vaktijaData['months'][_currentMonth]['days']
-                          [currentDay]['vakat'][index] +
-                      vaktijaData.differences[_currentLocation]['months']
-                          [_currentMonth]['vakat'][index] +
-                      _dst) +
-                  (index == 1 || index == 3
-                      ? '\n'
-                      : (index == 5 ? '' : ' | '))))
-          .toString()
-          .replaceAll('[', '')
-          .replaceAll(']', '')
-          .replaceAll(', ', '');
-      String payload = '0';
-      NotificationService().showNotifications(id, title, body, payload);
+  void _showDnevnaVaktija() {
+    if (vaktijaData != null) {
+      for (int dayIndex = 0; dayIndex < 6; dayIndex++) {
+        NotificationService().cancelNotifications(dayIndex);
+        if (_showDailyVaktija) {
+          DateTime day = DateTime.now().add(
+            Duration(
+              days: dayIndex,
+            ),
+          );
+          int dstAddonTime = checkDST(day) ? 3600 : 0;
+          int _currentTime = (day.hour * 3600) + (day.minute * 60) + day.second;
+          int timeOut = dayIndex == 0 ? (86280 - _currentTime) : 86280;
+          String date = dateDMY(day.toString());
+          String hDate = dateToStringHijri(HijriCalendar.now());
+          String grad = gradovi[_currentLocation];
+          String title = 'Vaktija.ba | $grad';
+          String vaktoviIOS = List.generate(
+            vaktoviName.length,
+            (index) =>
+                vaktoviNotifikacija[index] +
+                ': ' +
+                vaktijaSec2HourString(vaktijaData['months'][day.month - 1]
+                        ['days'][day.day - 1]['vakat'][index] +
+                    differences[_currentLocation]['months'][day.month - 1]
+                        ['vakat'][index] +
+                    dstAddonTime) +
+                (index.isOdd ? '\n' : ' | '),
+          ).join();
+          String payload = dayIndex.toString();
+          //print(bodyIOS);<b>
+          String vaktoviAndroid = List.generate(
+            vaktoviName.length,
+            (index) =>
+                '<b>${vaktoviNotifikacija[index]}<b>' +
+                ': ' +
+                vaktijaSec2HourString(vaktijaData['months'][day.month - 1]
+                        ['days'][day.day - 1]['vakat'][index] +
+                    differences[_currentLocation]['months'][day.month - 1]
+                        ['vakat'][index] +
+                    dstAddonTime) +
+                (index.isOdd ? (index == 5 ? '' : '<br>') : '  |  '),
+          ).join();
+
+          //print(vaktoviAndroid);
+
+          String bodyIOS =
+              '${daniSedmiceShort[day.weekday - 1]}, $date/$hDate\n$vaktoviIOS';
+
+          String bodyAndroid =
+              '${daniSedmiceShort[day.weekday - 1]}, <b>$date</b> / <b>$hDate</b><br>$vaktoviAndroid';
+
+          NotificationService().dnevnaVaktijaNotification(
+            dayIndex,
+            title,
+            Platform.isIOS ? bodyIOS : bodyAndroid,
+            payload,
+            day,
+            timeOut,
+          );
+        }
+      }
     }
   }
 
   void _vaktoviScheduleNotification() {
-    _notificationScheduled = true;
-    int podneDefaultTime = 43200;
-    for (int i = 0; i < vaktoviName.length; i++) {
-      var vakatTime = i == 2 && (!_podneStvarnoVrijeme || (_vaktijaDzumaVrijeme && _currentWeekDay == 4))
-          ? podneDefaultTime + _dst
-          : vaktijaData['months'][_currentMonth]['days'][_currentDay]['vakat']
-                  [i] +
-              differences[_currentLocation]['months'][_currentMonth]['vakat']
-                  [i] +
-              _dst;
-      var id = i + 10;
-      var title =
-          'Uskoro nastupa ${vaktoviName[i]}'; //nastupa za ${(_vaktoviNotifikacijeTime[i] / 60).round()} minuta';
-      var body =
-          '${gradovi[_currentLocation].toString()} | ${vaktoviName[i]} | ${vaktijaSec2Min(vakatTime)}';
-      NotificationService().cancelNotifications(id);
-      if (vakatTime - _vaktoviNotifikacijeTime[i] > _currentTime &&
-          _vaktoviNotifikacijaSound[i]) {
-        bool _isDzuma = _currentWeekDay == 4;
-        int duration =
-            (vakatTime - _vaktoviNotifikacijeTime[(_isDzuma && i == 2 && _vaktijaDzumaVrijeme) ? 6 : i] - _currentTime).round();
-        //print(duration);
-        NotificationService().scheduleNotifications(id, title, body, duration);
-      }
-      if (vakatTime - _vaktoviNotifikacijeTime[i] < _currentTime &&
-          _vaktoviNotifikacijaSound[i]) {
-        DateTime _newDate = DateTime.now().add(Duration(days: 1));
-        bool _isDzuma = _newDate.weekday == 4;
-        int _newDay = _newDate.day;
-        int _newMonth = _newDate.month;
-        var vakatTimeForward = i == 2 && (!_podneStvarnoVrijeme || (_vaktijaDzumaVrijeme && _currentWeekDay == 4))
-            ? podneDefaultTime + _dst
-            : vaktijaData['months'][_newMonth]['days'][_newDay]['vakat'][i] +
-                differences[_currentLocation]['months'][_newMonth]['vakat'][i] +
-                _dst;
-        int addOnTime = 86400 - _currentTime;
-        int duration =
-            ((vakatTimeForward + addOnTime) - _vaktoviNotifikacijeTime[(_isDzuma && i == 2 && _vaktijaDzumaVrijeme) ? 6 : i])
-                .round();
-        NotificationService().scheduleNotifications(id, title, body, duration);
+    if (vaktijaData != null) {
+      DateTime _currentVaktijaDay = DateTime.now();
+      int podneDefaultTime = 43200;
+      NotificationService().cancelAllNotifications();
+      for (int indexDan = 0; indexDan < 9; indexDan++) {
+        DateTime _vaktijaScheduleDate =
+            _currentVaktijaDay.add(Duration(days: indexDan));
+        //DateTime today = DateTime.now();
+        int dstAddonTime = checkDST(_vaktijaScheduleDate) ? 3600 : 0;
+        // int _newDST =
+        //     _vaktijaScheduleDate.timeZoneOffset.inHours == 2 ? 3600 : 0;
+        int _vaktijaScheduleDateDay = _vaktijaScheduleDate.day - 1;
+        int _vaktijaScheduleDateMonth = _vaktijaScheduleDate.month - 1;
+        bool _isDzuma = _vaktijaScheduleDate.weekday == 4;
+        for (int indexVakat = 0; indexVakat < 6; indexVakat++) {
+          var vakatTime = indexVakat == 2 && !_podneStvarnoVrijeme
+              ? podneDefaultTime + dstAddonTime
+              : vaktijaData['months'][_vaktijaScheduleDateMonth]['days']
+                      [_vaktijaScheduleDateDay]['vakat'][indexVakat] +
+                  differences[_currentLocation]['months']
+                      [_vaktijaScheduleDateMonth]['vakat'][indexVakat] +
+                  dstAddonTime;
+
+          var id = ((indexDan + 1) * 10) + (indexVakat + 1);
+          var title = 'Uskoro nastupa ${vaktoviName[indexVakat]}';
+          // vaktoviName[indexVakat].toString() +
+          // ' nastupa za ' +
+          // ((_vaktoviNotifikacijeTime[indexVakat] / 60).round()).toString() +
+          // ' minuta';
+          var body =
+              '${gradovi[_currentLocation]} | ${vaktoviName[indexVakat]}: ${vaktijaSec2HourString(vakatTime)}';
+
+          List vakatTimeNotificationTime = vaktijaSec2HoursMinutes(vakatTime -
+              _vaktoviNotifikacijeTime[
+                  (_isDzuma && (indexVakat == 2) && _vaktijaDzumaVrijeme)
+                      ? 6
+                      : indexVakat]);
+          int notificationHour = vakatTimeNotificationTime[0];
+          int notificationMinutes = vakatTimeNotificationTime[1];
+          //NotificationService().cancelNotifications(id);
+          if (indexDan == 0) {
+            int _currentTime = (_currentVaktijaDay.hour * 3600) +
+                (_currentVaktijaDay.minute * 60) +
+                _currentVaktijaDay.second;
+            if (vakatTime - _vaktoviNotifikacijeTime[indexVakat] >
+                _currentTime) {
+              if (_vaktoviNotifikacijaSound[indexVakat] == true) {
+                NotificationService().scheduleNotifications(
+                    id,
+                    title,
+                    body,
+                    _vaktijaScheduleDate,
+                    notificationHour,
+                    notificationMinutes,
+                    _vaktoviNotifikacijeTime[indexVakat]);
+              }
+            }
+          } else {
+            if (_vaktoviNotifikacijaSound[indexVakat] == true) {
+              NotificationService().scheduleNotifications(
+                  id,
+                  title,
+                  body,
+                  _vaktijaScheduleDate,
+                  notificationHour,
+                  notificationMinutes,
+                  _vaktoviNotifikacijeTime[indexVakat]);
+            }
+          }
+        }
       }
     }
+
+    // int podneDefaultTime = 43200;
+    // for (int i = 0; i < vaktoviName.length; i++) {
+    //   var vakatTime = i == 2 &&
+    //           (!_podneStvarnoVrijeme ||
+    //               (_vaktijaDzumaVrijeme && _currentWeekDay == 4))
+    //       ? podneDefaultTime + _dst
+    //       : vaktijaData['months'][_currentMonth]['days'][_currentDay]['vakat']
+    //               [i] +
+    //           differences[_currentLocation]['months'][_currentMonth]['vakat']
+    //               [i] +
+    //           _dst;
+    //   var id = i + 10;
+    //   var title =
+    //       'Uskoro nastupa ${vaktoviName[i]}'; //nastupa za ${(_vaktoviNotifikacijeTime[i] / 60).round()} minuta';
+    //   var body =
+    //       '${gradovi[_currentLocation].toString()} | ${vaktoviName[i]} | ${vaktijaSec2HourString(vakatTime)}';
+    //   NotificationService().cancelNotifications(id);
+    //   if (vakatTime - _vaktoviNotifikacijeTime[i] > _currentTime &&
+    //       _vaktoviNotifikacijaSound[i]) {
+    //     bool _isDzuma = _currentWeekDay == 4;
+    //     int duration = (vakatTime -
+    //             _vaktoviNotifikacijeTime[
+    //                 (_isDzuma && i == 2 && _vaktijaDzumaVrijeme) ? 6 : i] -
+    //             _currentTime)
+    //         .round();
+    //     //print(duration);
+    //     NotificationService().scheduleNotifications(id, title, body, duration);
+    //   }
+    //   if (vakatTime - _vaktoviNotifikacijeTime[i] < _currentTime &&
+    //       _vaktoviNotifikacijaSound[i]) {
+    //     DateTime _newDate = DateTime.now().add(Duration(days: 1));
+    //     bool _isDzuma = _newDate.weekday == 4;
+    //     int _newDay = _newDate.day;
+    //     int _newMonth = _newDate.month;
+    //     var vakatTimeForward = i == 2 &&
+    //             (!_podneStvarnoVrijeme ||
+    //                 (_vaktijaDzumaVrijeme && _currentWeekDay == 4))
+    //         ? podneDefaultTime + _dst
+    //         : vaktijaData['months'][_newMonth]['days'][_newDay]['vakat'][i] +
+    //             differences[_currentLocation]['months'][_newMonth]['vakat'][i] +
+    //             _dst;
+    //     int addOnTime = 86400 - _currentTime;
+    //     int duration = ((vakatTimeForward + addOnTime) -
+    //             _vaktoviNotifikacijeTime[
+    //                 (_isDzuma && i == 2 && _vaktijaDzumaVrijeme) ? 6 : i])
+    //         .round();
+    //     NotificationService().scheduleNotifications(id, title, body, duration);
+    //   }
+    // }
   }
 
   saveVaktijaData() {
@@ -309,7 +401,8 @@ class VaktijaDateTimeProvider extends ChangeNotifier {
       _vaktoviAlarmTime,
       _vaktoviAlarmSound,
       _podneStvarnoVrijeme,
-      _vaktijaDzumaVrijeme
+      _vaktijaDzumaVrijeme,
+      _showDailyVaktija
     ];
     saveVaktijaInitData(vaktijaSaveData);
   }

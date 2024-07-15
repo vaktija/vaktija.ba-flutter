@@ -2,10 +2,11 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:vaktijaba_fl/app_theme/theme_data.dart';
+import 'package:vaktijaba_fl/components/divider/horizontal_divider.dart';
 import 'package:vaktijaba_fl/components/screen_loader.dart';
-import 'package:vaktijaba_fl/components/text_styles/text_title.dart';
+import 'package:vaktijaba_fl/components/text_styles/text_body_medium.dart';
 import 'package:vaktijaba_fl/components/vaktija_location_list_field.dart';
-import 'package:vaktijaba_fl/components/vertical_divider.dart';
 import 'package:vaktijaba_fl/components/vertical_separator.dart';
 import 'package:vaktijaba_fl/data/data.dart';
 import 'package:vaktijaba_fl/function/capitalize_letter.dart';
@@ -97,7 +98,7 @@ class _LocationSearchScreenState extends State<LocationSearchScreen> {
   Widget build(BuildContext context) {
     bool isDarkModeOn = isDarkMode(context);
     return Scaffold(
-      backgroundColor: isDarkModeOn ? Colors.black : Colors.white,
+      //backgroundColor: isDarkModeOn ? Colors.black : Colors.white,
       body: Column(
         children: [
           Padding(
@@ -118,9 +119,9 @@ class _LocationSearchScreenState extends State<LocationSearchScreen> {
                       onPressed: () {
                         Navigator.pop(context);
                       },
-                      child: TextTitle(
+                      child: TextBodyMedium(
                         text: 'Otkaži',
-                        color: colorAction,
+                        color: AppColors.colorAction,
                       )),
                 )
               ],
@@ -130,97 +131,96 @@ class _LocationSearchScreenState extends State<LocationSearchScreen> {
               child: listaGradova.length < 1
                   ? ScreenLoader()
                   : !showFiltered
-                      ? Scrollbar(
-                          controller: _scrollController,
-                          child: ListView.separated(
-                              controller: _scrollController,
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: defaultPadding * 2,
-                                  vertical: defaultPadding * 2),
-                              itemBuilder: (context, index) {
-                                int locationIndex = int.parse(
-                                    listaGradova[index]['IlceID'].toString());
-                                var title = listaGradova[index]['IlceAdiEn'];
-                                return LocationListField(
-                                  title: title,
-                                  index: index,
-                                  isRadioIcon: false,
-                                  isChecked: false,
-                                  length: listaGradova.length,
-                                  //closeFilter: widget.closeFilter,
-                                  onTap: () {
-                                    setVaktijaLocation(context, locationIndex);
-                                    Navigator.pop(context);
-                                    widget.closeFilter();
-                                  },
-                                );
-                              },
-                              separatorBuilder: (context, index) {
-                                return VerticalListDivider();
-                              },
-                              itemCount: listaGradova.length),
-                        )
-                      : (showLoader
-                          ? ScreenLoader()
-                          : listaGradovaFiltrirano.length < 1
-                              ? _noData()
-                              : ListView.separated(
-                                  controller: _scrollController,
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: defaultPadding * 2,
-                                      vertical: defaultPadding * 2),
-                                  itemBuilder: (context, index) {
-                                    var locationIndex = int.parse(
-                                        listaGradovaFiltrirano[index]
-                                            ['IlceID']);
-                                    var title = listaGradovaFiltrirano[index]
-                                        ['IlceAdiEn'];
-                                    return LocationListField(
-                                      title: title,
-                                      index: index,
-                                      length: listaGradovaFiltrirano.length,
-                                      isChecked: false,
-                                      //closeFilter: widget.closeFilter,
-                                      isRadioIcon: false,
-                                      onTap: () {
-                                        setVaktijaLocation(
-                                            context, locationIndex);
-                                        Navigator.pop(context);
-                                        widget.closeFilter();
-                                      },
-                                    );
-                                  },
-                                  separatorBuilder: (context, index) {
-                                    return VerticalListDivider();
-                                  },
-                                  itemCount: listaGradovaFiltrirano.length)))
+                  ? Scrollbar(
+                controller: _scrollController,
+                child: ListView.separated(
+                    controller: _scrollController,
+                    padding: EdgeInsets.symmetric(
+                        horizontal: defaultPadding * 2,
+                        vertical: defaultPadding * 2),
+                    itemBuilder: (context, index) {
+                      int locationIndex = int.parse(
+                          listaGradova[index]['IlceID'].toString());
+                      var title = listaGradova[index]['IlceAdiEn'];
+                      return LocationListField(
+                        title: title,
+                        index: index,
+                        isRadioIcon: false,
+                        isChecked: false,
+                        length: listaGradova.length,
+                        //closeFilter: widget.closeFilter,
+                        onTap: () {
+                          setVaktijaLocation(context, locationIndex);
+                          Navigator.pop(context);
+                          widget.closeFilter();
+                        },
+                      );
+                    },
+                    separatorBuilder: (context, index) {
+                      return DividerCustomHorizontal();
+                    },
+                    itemCount: listaGradova.length),
+              )
+                  : (showLoader
+                  ? ScreenLoader()
+                  : listaGradovaFiltrirano.length < 1
+                  ? _noData()
+                  : ListView.separated(
+                  controller: _scrollController,
+                  padding: EdgeInsets.symmetric(
+                      horizontal: defaultPadding * 2,
+                      vertical: defaultPadding * 2),
+                  itemBuilder: (context, index) {
+                    var locationIndex = int.parse(
+                        listaGradovaFiltrirano[index]
+                        ['IlceID']);
+                    var title = listaGradovaFiltrirano[index]
+                    ['IlceAdiEn'];
+                    return LocationListField(
+                      title: title,
+                      index: index,
+                      length: listaGradovaFiltrirano.length,
+                      isChecked: false,
+                      //closeFilter: widget.closeFilter,
+                      isRadioIcon: false,
+                      onTap: () {
+                        setVaktijaLocation(
+                            context, locationIndex);
+                        Navigator.pop(context);
+                        widget.closeFilter();
+                      },
+                    );
+                  },
+                  separatorBuilder: (context, index) {
+                    return DividerCustomHorizontal();
+                  },
+                  itemCount: listaGradovaFiltrirano.length)))
         ],
       ),
     );
   }
 
   Widget _searchInput(isDarkModeOn) {
+    TextStyle textStyle = Theme
+        .of(context)
+        .textTheme
+        .bodyLarge!;
     return Container(
       decoration: BoxDecoration(
-          color: isDarkModeOn ? colorGreyDark : Colors.white,
+          color: isDarkModeOn ? AppColors.colorGreyDark : Colors.white,
           borderRadius: BorderRadius.circular(defaultPadding),
           border: Border.all(
               width: 1,
-              color: colorGreyLight,
+              color: AppColors.colorGreyLight,
               style: BorderStyle.solid)),
       padding: EdgeInsets.only(
-          //vertical: defaultPadding,
+        //vertical: defaultPadding,
           left: defaultPadding * 2),
       child: TextFormField(
         autofocus: true,
         controller: _textEditingController,
         textInputAction: TextInputAction.search,
-        style: TextStyle(
-          fontFamily: 'raleway',
-          fontSize: 18,
-          height: 1.4,
-          fontWeight: FontWeight.w500,
-          color: isDarkModeOn ? colorGreyLight : colorGreyDark,
+        style: textStyle.copyWith(
           decoration: TextDecoration.none,
         ),
         decoration: InputDecoration(
@@ -228,42 +228,50 @@ class _LocationSearchScreenState extends State<LocationSearchScreen> {
           hintText: 'Unesi ime grada...',
           suffixIcon: _textEditingController.text.isEmpty
               ? Container(
-                  width: 0,
-                )
+            width: 0,
+          )
               : IconButton(
-                  splashRadius: 15,
-                  icon: Icon(
-                    Icons.close,
-                    color: isDarkModeOn ? colorGreyLight : colorGreyDark,
-                  ),
-                  onPressed: () {
-                    _textEditingController.clear();
-                    clearFilterGradovi();
-                  },
-                ),
-          hintStyle: TextStyle(
-            fontFamily: 'raleway',
-            fontSize: 18,
-            //height: isMobile ? _heightMobile : _height,
-            fontWeight: FontWeight.w500,
-            color: colorGreyLight,
-            decoration: TextDecoration.none,
+            splashRadius: 15,
+            icon: Icon(
+              Icons.close,
+              color: Theme
+                  .of(context)
+                  .iconTheme
+                  .color!
+                  .withOpacity(0.9),
+            ),
+            onPressed: () {
+              _textEditingController.clear();
+              clearFilterGradovi();
+            },
           ),
-        ),
-        onChanged: (text) {
-          filterGradovi(text);
-        },
+          hintStyle: textStyle.copyWith(
+              color: textStyle.color!.withOpacity(0.8),
+              decoration: TextDecoration.none
+          )
+
+        //   TextStyle(
+        //   fontFamily: 'raleway',
+        //   fontSize: 18,
+        //   //height: isMobile ? _heightMobile : _height,
+        //   fontWeight: FontWeight.w500,
+        //   color: colorGreyLight,
+        //   decoration: TextDecoration.none,
+        // ),
       ),
-    );
+      onChanged: (text) {
+        filterGradovi(text);
+      },
+    ),);
   }
 
   Widget _noData() {
-    return Center(
+    return const Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: const [
-          TextTitle(
+          TextBodyMedium(
             text: 'Žao nam je',
             bold: true,
             //color: colorGrey6,
@@ -271,7 +279,7 @@ class _LocationSearchScreenState extends State<LocationSearchScreen> {
           VerticalListSeparator(
             height: 2,
           ),
-          TextTitle(
+          TextBodyMedium(
             text: 'Trenutno nemamo namaska \nvremena za traženu lokaciju',
             bold: false,
           )

@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:mailto/mailto.dart';
+import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:vaktijaba_fl/app_theme/theme_settings_switch.dart';
+import 'package:vaktijaba_fl/components/divider/horizontal_divider.dart';
 import 'package:vaktijaba_fl/components/horizontal_separator.dart';
-import 'package:vaktijaba_fl/components/text_styles/text_subtitle.dart';
-import 'package:vaktijaba_fl/components/text_styles/text_title.dart';
+import 'package:vaktijaba_fl/components/text_styles/text_body_medium.dart';
+import 'package:vaktijaba_fl/components/text_styles/text_body_small.dart';
 import 'package:vaktijaba_fl/components/toggle_switch.dart';
-import 'package:vaktijaba_fl/components/vertical_divider.dart';
 import 'package:vaktijaba_fl/components/vertical_separator.dart';
+import 'package:vaktijaba_fl/data/app_data.dart';
+import 'package:vaktijaba_fl/data/constants.dart';
 import 'package:vaktijaba_fl/data/data.dart';
 import 'package:vaktijaba_fl/function/dark_mode_check.dart';
 import 'package:vaktijaba_fl/function/open_new_screen.dart';
@@ -26,21 +30,24 @@ class _HomeTabSettingsState extends State<HomeTabSettings> {
   Widget build(BuildContext context) {
     var screenSize = MediaQuery.of(context).size;
     bool isDarkModeOn = isDarkMode(context);
-    var vaktijaProvider = vaktijaStateProvider(context);
+    VaktijaDateTimeProvider vaktijaProvider =
+        Provider.of<VaktijaDateTimeProvider>(context);
+    //vaktijaStateProvider(context);
     int grad = vaktijaProvider.currentLocation;
     bool podneVrijeme = vaktijaProvider.podneStvarnoVrijeme;
+    bool dnevnaVaktija = vaktijaProvider.showDailyVaktija;
     bool dzumaVrijemeAdet = vaktijaProvider.dzumaVrijemeAdet;
 
     return Scaffold(
-      backgroundColor: isDarkModeOn ? Colors.black : Colors.white,
+      //backgroundColor: isDarkModeOn ? Colors.black : Colors.white,
       appBar: AppBar(
-        title: const TextTitle(
+        title: const TextBodyMedium(
           text: 'Postavke',
           bold: true,
         ),
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        shadowColor: Colors.transparent,
+        // backgroundColor: Colors.transparent,
+        //   elevation: 0,
+        //   shadowColor: Colors.transparent,
         centerTitle: true,
         leading: Container(),
         actions: [],
@@ -49,7 +56,15 @@ class _HomeTabSettingsState extends State<HomeTabSettings> {
         padding: EdgeInsets.symmetric(horizontal: defaultPadding * 2),
         shrinkWrap: true,
         children: [
-          const TextTitle(
+          const TextBodyMedium(
+            text: 'Tema',
+            bold: true,
+          ),
+          ThemeSettingsSwitch(),
+          const DividerCustomHorizontal(
+            height: defPadding * 3,
+          ),
+          const TextBodyMedium(
             text: 'Lokacija',
             bold: true,
           ),
@@ -62,21 +77,53 @@ class _HomeTabSettingsState extends State<HomeTabSettings> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  TextTitle(
+                  TextBodyMedium(
                     text: gradovi[grad],
                   ),
                   Icon(
                     Icons.arrow_forward_ios_rounded,
-                    color: isDarkModeOn ? Colors.white : colorGreyDark,
+                    color: Theme.of(context).iconTheme.color,
                   )
                 ],
               ),
             ),
           ),
-          const VerticalListSeparator(height: 2),
-          const VerticalListDivider(),
-          const VerticalListSeparator(height: 2),
-          const TextTitle(
+          gap16,
+          const DividerCustomHorizontal(),
+          gap16,
+          const TextBodyMedium(
+            text: 'Dnevna vaktija u notifikaciji',
+            bold: true,
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: defaultPadding),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Expanded(
+                  child: const TextBodyMedium(
+                    text: 'Prikaži dnevnu vaktiju',
+                    bold: false,
+                    //color: colorLightShade,
+                  ),
+                ),
+                const HorizontalListSeparator(
+                  width: 1,
+                ),
+                ToggleSwitch(
+                  isToggle: dnevnaVaktija,
+                  onTap: () {
+                    Provider.of<VaktijaDateTimeProvider>(context, listen: false)
+                        .setDnevnaVaktijaNotification(!dnevnaVaktija);
+                  },
+                )
+              ],
+            ),
+          ),
+          gap16,
+          const DividerCustomHorizontal(),
+          gap16,
+          const TextBodyMedium(
             text: 'Podne-namaz',
             bold: true,
           ),
@@ -91,7 +138,7 @@ class _HomeTabSettingsState extends State<HomeTabSettings> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      const TextTitle(
+                      const TextBodyMedium(
                         text: 'Vrijeme Podne-namaza',
                         bold: false,
                         //color: colorLightShade,
@@ -99,7 +146,7 @@ class _HomeTabSettingsState extends State<HomeTabSettings> {
                       const VerticalListSeparator(
                         height: 0.5,
                       ),
-                      TextSubtitle(
+                      TextBodySmall(
                         text: podneVrijeme ? podneVakatTakvim : podneVakatAdet,
                         italic: false,
                       )
@@ -118,73 +165,69 @@ class _HomeTabSettingsState extends State<HomeTabSettings> {
               ],
             ),
           ),
-          const VerticalListSeparator(height: 2),
-          Padding(
-            padding: EdgeInsets.symmetric(vertical: defaultPadding),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const TextTitle(
-                        text: 'Posebne postavke za džumu',
-                        bold: false,
-                        //color: colorLightShade,
-                      ),
-                      const VerticalListSeparator(
-                        height: 0.5,
-                      ),
-                      TextSubtitle(
-                        text: !dzumaVrijemeAdet
-                            ? dzumaVakatTakvim
-                            : dzumaVakatAdet,
-                        italic: false,
-                      )
-                    ],
-                  ),
+          gap16,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const TextBodyMedium(
+                      text: 'Posebne postavke za džumu',
+                      bold: false,
+                      //color: colorLightShade,
+                    ),
+                    const VerticalListSeparator(
+                      height: 0.5,
+                    ),
+                    TextBodySmall(
+                      text:
+                          !dzumaVrijemeAdet ? dzumaVakatTakvim : dzumaVakatAdet,
+                      italic: false,
+                    )
+                  ],
                 ),
-                const HorizontalListSeparator(
-                  width: 1,
-                ),
-                ToggleSwitch(
-                  isToggle: dzumaVrijemeAdet,
-                  onTap: () {
-                    setVaktijaDzumaVrijeme(context, !dzumaVrijemeAdet);
-                  },
-                )
-              ],
-            ),
+              ),
+              const HorizontalListSeparator(
+                width: 1,
+              ),
+              ToggleSwitch(
+                isToggle: dzumaVrijemeAdet,
+                onTap: () {
+                  setVaktijaDzumaVrijeme(context, !dzumaVrijemeAdet);
+                },
+              )
+            ],
           ),
           const VerticalListSeparator(height: 2),
-          const VerticalListDivider(),
+          const DividerCustomHorizontal(),
           const VerticalListSeparator(height: 2),
           InkWell(
             onTap: () {
               Share.share('http://vaktija.ba');
             },
-            child: Column(
+            child: const Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: const [
-                TextTitle(
+                TextBodyMedium(
                   text: 'Social',
                   bold: true,
                 ),
                 VerticalListSeparator(
                   height: 1,
                 ),
-                TextTitle(
+                TextBodyMedium(
                   text: 'Podijeli',
                   bold: false,
                 ),
                 VerticalListSeparator(
                   height: 0.5,
                 ),
-                TextSubtitle(
+                TextBodySmall(
                   text: 'Email, SMS, chat...',
                   italic: false,
                 ),
@@ -192,32 +235,32 @@ class _HomeTabSettingsState extends State<HomeTabSettings> {
             ),
           ),
           const VerticalListSeparator(height: 2),
-          const VerticalListDivider(),
+          const DividerCustomHorizontal(),
           const VerticalListSeparator(height: 2),
           InkWell(
             enableFeedback: false,
             onTap: () {
               prijaviBug();
             },
-            child: Column(
+            child: const Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: const [
-                TextTitle(
+                TextBodyMedium(
                   text: 'Aplikacija',
                   bold: true,
                 ),
                 VerticalListSeparator(
                   height: 1,
                 ),
-                TextTitle(
+                TextBodyMedium(
                   text: 'Kontakt',
                   bold: false,
                 ),
                 VerticalListSeparator(
                   height: 0.5,
                 ),
-                TextSubtitle(
+                TextBodySmall(
                   text: 'Pošalji prijedlog, prijavi bug...',
                   italic: false,
                 ),
@@ -227,19 +270,19 @@ class _HomeTabSettingsState extends State<HomeTabSettings> {
           const VerticalListSeparator(
             height: 2,
           ),
-          const TextTitle(
+          const TextBodyMedium(
             text: 'Aplikacija',
             bold: false,
           ),
           const VerticalListSeparator(
             height: 0.5,
           ),
-          const TextSubtitle(
-            text: 'Verzija 1.0.0',
+          TextBodySmall(
+            text: 'Verzija ${AppSettings.APP_VERSION}',
             italic: false,
           ),
           const VerticalListSeparator(height: 2),
-          const VerticalListDivider(),
+          const DividerCustomHorizontal(),
           const VerticalListSeparator(height: 4),
           Align(
             alignment: Alignment.center,
@@ -247,11 +290,12 @@ class _HomeTabSettingsState extends State<HomeTabSettings> {
               width: screenSize.width * 0.6,
               child: Image.asset(
                 'assets/icons/logo_iz.png',
-                color: isDarkModeOn ? colorGreyLight : null,
+                // color: isDarkModeOn ? AppColors.colorGreyLight : null,
                 fit: BoxFit.fitWidth,
               ),
             ),
-          )
+          ),
+          gap32,
         ],
       ),
     );

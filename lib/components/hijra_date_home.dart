@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:vaktijaba_fl/components/text_styles/text_subtitle.dart';
+import 'package:hijri/hijri_calendar.dart';
+import 'package:vaktijaba_fl/components/text_styles/text_body_small.dart';
 import 'package:vaktijaba_fl/services/state_provider.dart';
 
 import '../data/data.dart';
@@ -16,20 +17,30 @@ class HijraDateHome extends StatefulWidget {
 class _HijraDateHomeState extends State<HijraDateHome> {
   @override
   Widget build(BuildContext context) {
-    var vaktijaProvider = vaktijaStateProvider(context);
-    var danSed = vaktijaProvider.currentWeekDay;
-    var dan = vaktijaProvider.currentDay+1;
-    var mjesec = vaktijaProvider.currentMonth;
-    var godina = vaktijaProvider.currentYear;
-    var danHidz = vaktijaProvider.currentDayHijri;
-    var mjesecHidz = vaktijaProvider.currentMonthHijri;
-    var godinaHidz = vaktijaProvider.currentYearHijri;
+    DateTime now = DateTime.now();
+    HijriCalendar nowHijri = HijriCalendar.now();
+    int danSed = now.weekday-1;
+    int dan = now.day;
+    int mjesec = now.month - 1;
+    int godina = now.year;
+
+    int danHidz = nowHijri.hDay;
+    int mjesecHidz = nowHijri.hMonth - 1;
+    int godinaHidz = nowHijri.hYear;
+    // var vaktijaProvider = vaktijaStateProvider(context);
+    // var danSed = vaktijaProvider.currentWeekDay;
+    // var dan = vaktijaProvider.currentDay+1;
+    // var mjesec = vaktijaProvider.currentMonth;
+    // var godina = vaktijaProvider.currentYear;
+    // var danHidz = vaktijaProvider.currentDayHijri;
+    // var mjesecHidz = vaktijaProvider.currentMonthHijri;
+    // var godinaHidz = vaktijaProvider.currentYearHijri;
     return GestureDetector(
       onTap: (){
         openNewScreen(context, LocationScreen(), 'lokacija');
       },
-      child: TextSubtitle(
-        text: daniSedmice[danSed] +
+      child: TextBodySmall(
+        text: daniSedmiceShort[danSed] +
             ', ' +
             dan.toString() +
             '. ' +
