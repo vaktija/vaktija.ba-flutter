@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:vaktijaba_fl/components/text_styles/text_list_field.dart';
 import 'package:vaktijaba_fl/components/text_styles/text_body_medium.dart';
+import 'package:vaktijaba_fl/data/constants.dart';
 import 'package:vaktijaba_fl/data/data.dart';
 
 class LocationListField extends StatelessWidget {
@@ -27,13 +28,13 @@ class LocationListField extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           color: //isChecked ? Colors.grey.shade50 :
           Colors.transparent,
         ),
         child: Padding(
-          padding: EdgeInsets.symmetric(
-              horizontal: defaultPadding * 0, vertical: defaultPadding),
+          padding: const EdgeInsets.symmetric(
+              horizontal: 0.0, vertical: defPadding*2),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,

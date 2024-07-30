@@ -4,9 +4,15 @@ class TextBodyMedium extends StatelessWidget {
   final text;
   final bold;
   final color;
+  final TextAlign? textAlign;
 
-  const TextBodyMedium({Key? key, this.text, this.bold, this.color})
-      : super(key: key);
+  const TextBodyMedium({
+    Key? key,
+    this.text,
+    this.bold,
+    this.color,
+    this.textAlign,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -14,8 +20,9 @@ class TextBodyMedium extends StatelessWidget {
     final isBold = bold ?? false;
     TextStyle textStyle = Theme.of(context).textTheme.bodyMedium!;
     return Text(
-      text ?? 'vakat ime',
+      text ?? 'TextBodyMedium',
       textScaleFactor: 1.0,
+      textAlign: textAlign,
       style: textStyle.copyWith(
         color: color,
         fontWeight: isBold ? FontWeight.w700 : FontWeight.w500,

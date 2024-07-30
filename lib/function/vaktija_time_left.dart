@@ -1,48 +1,46 @@
+import 'package:vaktijaba_fl/function/sec_2_hhmm.dart';
+
 String vaktijaTimeLeft(int currentTime, int vakatTime, bool nextVakat) {
-  if (currentTime > vakatTime) {
-    var timeLeftData = currentTime - vakatTime;
+  DateTime now = DateTime.now();
+  String hhMM = secondsToHHMM(vakatTime);
+  DateTime vakatDateTime = DateTime.parse(
+      '${now.year}-${twoDigits(now.month)}-${twoDigits(now.day)} $hhMM');
+  if (vakatDateTime.isBefore(now) && nextVakat) {
+    vakatDateTime = vakatDateTime.add(
+      const Duration(days: 1),
+    );
+  }
+  if (nextVakat) {
+    int timeLeftData = vakatDateTime.difference(now).inSeconds;
+    int h = timeLeftData ~/ 3600;
+    int m = (timeLeftData - (h * 3600)) ~/ 60;
+    int s = (timeLeftData - (h * 3600) - (m * 60));
+    String preostalo = 'za ${twoDigits(h)}:${twoDigits(m)}:${twoDigits(s)}';
+    return preostalo;
+  }
+
+  if (vakatDateTime.isAfter(now)) {
+    int timeLeftData = vakatDateTime.difference(now).inSeconds;
     if (timeLeftData > 3600) {
-      int h;
-      h = timeLeftData ~/ 3600;
-      String proslo = 'prije ' + h.toString() + (h > 4 ? ' sati' : ' sata');
-      return proslo;
-    } else if (timeLeftData < 3600 && timeLeftData > 60) {
-      int m = timeLeftData ~/ 60;
-      String proslo = 'prije ' + m.toString() + ' minuta';
-      return proslo;
+      int hours = timeLeftData ~/ 3600;
+      return 'za $hours ${hours > 4 ? 'sati' : 'sata'}';
+    } else if (timeLeftData > 60) {
+      return 'za ${timeLeftData ~/ 60} minuta';
     } else {
-      String proslo = 'prije ' + timeLeftData.toString() + ' sekundi';
-      return proslo;
-    }
-  } else {
-    var timeLeftData = vakatTime - currentTime;
-    if (nextVakat) {
-      int h;
-      int m;
-      int s;
-      h = timeLeftData ~/ 3600;
-      m = (timeLeftData - (h * 3600)) ~/ 60;
-      s = (timeLeftData - (h * 3600) - (m * 60));
-      String preostalo = h.toString().padLeft(2, '0') +
-          ':' +
-          m.toString().padLeft(2, '0') +
-          ':' +
-          s.toString().padLeft(2, '0');
-      return preostalo;
-    } else {
-      if (timeLeftData > 3600) {
-        int h;
-        h = timeLeftData ~/ 3600;
-        String preostalo = 'za ' + h.toString() + (h > 4 ? ' sati' : ' sata');
-        return preostalo;
-      } else if (timeLeftData < 3600 && timeLeftData > 60) {
-        int m = timeLeftData ~/ 60;
-        String preostalo = 'za ' + m.toString() + ' minuta';
-        return preostalo;
-      } else {
-        String preostalo = 'za ' + timeLeftData.toString() + ' sekundi';
-        return preostalo;
-      }
+      return 'za $timeLeftData sekundi';
     }
   }
+
+  if (vakatDateTime.isBefore(now)) {
+    int timeLeftData = now.difference(vakatDateTime).inSeconds;
+    if (timeLeftData > 3600) {
+      int hours = timeLeftData ~/ 3600;
+      return 'prije $hours ${hours > 4 ? 'sati' : 'sata'}';
+    } else if (timeLeftData > 60) {
+      return 'prije ${timeLeftData ~/ 60} minuta';
+    } else {
+      return 'prije $timeLeftData sekundi';
+    }
+  }
+  return '00:00:00';
 }

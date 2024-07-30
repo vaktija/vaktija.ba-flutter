@@ -1,25 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:vaktijaba_fl/app_theme/theme_data.dart';
-import 'package:vaktijaba_fl/data/data.dart';
 
 class ToggleSwitch extends StatefulWidget {
-  final isToggle;
-  final onTap;
+  final toggleState;
+  final Function()? onTap;
 
-  const ToggleSwitch({Key? key, this.isToggle, this.onTap}) : super(key: key);
+  const ToggleSwitch({Key? key, this.toggleState, this.onTap})
+      : super(key: key);
 
   @override
   _ToggleSwitchState createState() => _ToggleSwitchState();
 }
 
 class _ToggleSwitchState extends State<ToggleSwitch> {
-
   //int isOn = 1;
   Size get s => MediaQuery.of(context).size;
 
+  int checkIsOn(){
+    if(widget.onTap == null){
+      return 0;
+    }
+    if(widget.toggleState){
+      return 1;
+    }
+    return 0;
+  }
+
   @override
   Widget build(BuildContext context) {
-    int isOn = widget.isToggle ? 1 : 0;
+    int isOn = checkIsOn();//widget.toggleState ? 1 : 0;
     return GestureDetector(
       onTap: widget.onTap,
       child: Container(
@@ -40,7 +49,9 @@ class _ToggleSwitchState extends State<ToggleSwitch> {
                 width: 31 + (20.0 * isOn),
                 height: 31,
                 decoration: BoxDecoration(
-                  color: isOn != 0 ? AppColors.colorSwitchActive : AppColors.colorSubtitle,
+                  color: isOn != 0
+                      ? AppColors.colorSwitchActive
+                      : AppColors.colorSubtitle,
                   borderRadius: BorderRadius.circular(100),
                 ),
               ),
@@ -51,21 +62,20 @@ class _ToggleSwitchState extends State<ToggleSwitch> {
               top: 2,
               left: 2 + (20.0 * isOn),
               child: Container(
-                  width: 27,
-                  height: 27,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.white,
-                    boxShadow: [
-                      BoxShadow(
+                width: 27,
+                height: 27,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
                         color: Colors.black.withOpacity(0.2),
                         blurRadius: 3,
-                        offset: Offset(0,3)
-                      ),
-                    ],
-                  ),
+                        offset: Offset(0, 3)),
+                  ],
                 ),
               ),
+            ),
           ],
         ),
       ),

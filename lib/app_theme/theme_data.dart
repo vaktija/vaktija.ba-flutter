@@ -6,6 +6,7 @@ abstract class AppColors {
   //Light mode
   static Color scaffoldBg = const Color(0xffffffff); //const Color(0xffE9F1F4);
   static Color containerColor = const Color(0xffE9F1F4);
+  static Color containerSecondaryColor = const Color(0xfff6f6f6);
   static Color iconColor = const Color(0xff2E2E2E);
   static Color disabledColor = const Color(0xffC3C3C3);
   static Color shadowColor = const Color(0xffd5d5d5);
@@ -23,7 +24,9 @@ abstract class AppColors {
   //Dark mode
   static Color scaffoldBgDark = const Color(0xff000000);
   static Color containerColorDark = const Color(0xff1F222A);
-  static Color iconColorDark = const Color(0xfffffff);
+  static Color containerSecondaryColorDark = const Color(0xff272727);
+
+  static Color iconColorDark = const Color(0xffffffff);
   static Color dividerColorDark = const Color(0xff676767);
 
   static Color bottomNavigationBGDark = const Color(0xff1DA4A7);
@@ -58,6 +61,9 @@ abstract class AppColors {
   static Color colorAction = const Color(0xff0882fd);
   static Color colorGold = const Color(0xffa59573);
   static Color colorSwitchActive = Colors.green;
+  static Color colorNotificationActive = const Color(0xff008348);
+  static Color colorAlarmActive = const Color(0xff3939A6);
+  static Color colorDNDActive = const Color(0xffE3852C);
 
   static IconThemeData iconThemeData = const IconThemeData(color: Colors.black87);
 

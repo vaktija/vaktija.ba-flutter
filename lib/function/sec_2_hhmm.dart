@@ -1,5 +1,7 @@
+String twoDigits(int n) => n.toString().padLeft(2, '0');
 
-String vaktijaSec2HourString(int value) {
+
+String secondsToHHMM(int value) {
   int h, m, s;
 
   h = value ~/ 3600;

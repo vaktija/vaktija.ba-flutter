@@ -1,34 +1,33 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:vaktijaba_fl/app_theme/theme_data.dart';
+import 'package:vaktijaba_fl/components/models/vakat_settings_model.dart';
 import 'package:vaktijaba_fl/components/text_styles/text_body_medium.dart';
 import 'package:vaktijaba_fl/components/text_styles/text_body_small.dart';
 import 'package:vaktijaba_fl/components/toggle_switch.dart';
-import 'package:vaktijaba_fl/components/vertical_separator.dart';
+import 'package:vaktijaba_fl/data/constants.dart';
 import 'package:vaktijaba_fl/data/data.dart';
+import 'package:vaktijaba_fl/services/vaktija_state_provider.dart';
 
-class VaktijaAlarmField extends StatelessWidget {
-  final isActive;
-  final setActive;
-  final onSliderChange;
-  final sliderValue;
-  final sliderLength;
-  final title;
-  final subtitle;
+class VakatAlarmField extends StatelessWidget {
+  final int index;
 
-  const VaktijaAlarmField(
-      {Key? key,
-      this.isActive,
-      this.setActive,
-      this.onSliderChange,
-      this.title,
-      this.subtitle,
-      this.sliderValue,
-      this.sliderLength})
-      : super(key: key);
+  const VakatAlarmField({
+    Key? key,
+    required this.index,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    int sliderLength = 60;
+    StateProviderVaktija vaktijaProvider =
+        Provider.of<StateProviderVaktija>(context);
+
+    VakatSettingsModel vakatSettingsModel = vaktijaProvider.vaktovi[index];
+    int timeValue = vakatSettingsModel.alarmTimeOut!;
+    bool isActive = vakatSettingsModel.alarmShow!;
+    bool vibrate = vakatSettingsModel.alarmVibrate!;
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: defaultPadding * 2),
       child: Column(
@@ -45,51 +44,84 @@ class VaktijaAlarmField extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    TextBodyMedium(
-                      text: title,
+                    const TextBodyMedium(
+                      text: 'Alarm',
                       //color: colorLightShade,
-                      bold: false,
+                      bold: true,
                     ),
-                    VerticalListSeparator(
-                      height: 1,
-                    ),
+                    gap8,
                     TextBodySmall(
-                      text: ((subtitle / 60).toInt()).toString() +
-                          ' minuta prije nastupa',
+                      text: '${(timeValue / 60).toInt()} minuta prije nastupa',
                       italic: false,
                       color: !isActive ? AppColors.colorGreyLight : null,
                     )
                   ],
                 ),
                 ToggleSwitch(
-                  onTap: setActive,
-                  isToggle: isActive,
-                )
+                  onTap: () {
+                    vakatSettingsModel.alarmShow = !isActive;
+                    updateVakatSettings(context, vakatSettingsModel, index);
+                  }, //setActive,
+                  toggleState: isActive,
+                ),
               ],
             ),
           ),
-          VerticalListSeparator(
-            height: 1,
-          ),
+          gap8,
           CupertinoSlider(
-            value: sliderValue / 60,
-            onChanged: !isActive ? null : onSliderChange,
+            value: timeValue / 60,
+            onChanged: !isActive
+                ? null
+                : (value) {
+                    vakatSettingsModel.alarmTimeOut = (value * 60).toInt();
+                    updateVakatSettings(context, vakatSettingsModel, index);
+                  },
             divisions: sliderLength,
             activeColor:
-            isActive ? AppColors.colorAction : AppColors.colorGreyLight,
+                isActive ? AppColors.colorAction : AppColors.colorGreyLight,
             thumbColor: isActive ? Colors.white : AppColors.colorGreyLight,
             min: 0,
             max: sliderLength.toDouble(),
           ),
-          // Slider.adaptive(
-          //     min: 0,
-          //     max: sliderLength.toDouble(),
-          //     divisions: sliderLength,
-          //     activeColor:
-          //         isActive ? AppColors.colorAction : AppColors.colorGreyLight,
-          //     thumbColor: isActive ? Colors.white : AppColors.colorGreyLight,
-          //     value: sliderValue / 60,
-          //     onChanged: !isActive ? null : onSliderChange)
+          gap16,
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: defaultPadding),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const TextBodyMedium(
+                      text: 'Vibracija',
+                      //color: colorLightShade,
+                      bold: false,
+                    ),
+                    gap8,
+                    TextBodySmall(
+                      text:
+                          'Vibracija tokom alarma ${vibrate ? '' : 'de'}aktivirana',
+                      italic: false,
+                      color: !isActive ? AppColors.colorGreyLight : null,
+                    )
+                  ],
+                ),
+                ToggleSwitch(
+                  onTap: !isActive
+                      ? null
+                      : () {
+                          vakatSettingsModel.alarmVibrate = !vibrate;
+                          updateVakatSettings(
+                              context, vakatSettingsModel, index);
+                        }, //setActive,
+                  toggleState: vibrate,
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );

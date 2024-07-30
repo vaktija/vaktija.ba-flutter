@@ -1,29 +1,24 @@
 import 'package:vaktijaba_fl/data/data.dart';
 
-getNextVakat(int currentTime, int grad, int mjesec, int dan, int dst) {
-  int index;
+int getNextVakat(int currentTime, int grad, int mjesec, int dan, int dst) {
+  int index = 0;
+  if (mjesec < 0 ||
+      mjesec >= 12 ||
+      dan < 0 ||
+      dan >= 31 ||
+      grad < 0 ||
+      grad >= differences.length) {
+    return index;
+  }
+
   for (int i = 0; i < 6; i++) {
-    int vakatTime = vaktijaData['months'][mjesec]['days'][dan]
-    ['vakat'][i] +
-        differences[grad]['months'][mjesec]['vakat'][i] + dst;
+    int vakatTime = vaktijaData['months'][mjesec]['days'][dan]['vakat'][i] +
+        differences[grad]['months'][mjesec]['vakat'][i] +
+        dst;
+    //print('trenutno(s) -> $currentTime || vakatTime(s) -> $vakatTime');
     if (currentTime < vakatTime) {
-      index = 0;
-      return index;
-    } else {
-      if (i == 5) {
-        index = i;
-        return index;
-      } else {
-        int nextVakat = vaktijaData['months'][mjesec]['days'][dan]
-        ['vakat'][i + 1] +
-            differences[grad]['months'][mjesec]['vakat'][i + 1] + dst;
-        if (currentTime < nextVakat) {
-          index = i + 1;
-          return index;
-        } else {
-          // return 0;
-        }
-      }
+      return i;
     }
   }
+  return index;
 }

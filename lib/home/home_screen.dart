@@ -1,16 +1,28 @@
+import 'dart:async';
+import 'dart:io';
+
+import 'package:alarm/alarm.dart';
+//import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:disable_battery_optimization/disable_battery_optimization.dart';
 import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
+import 'package:sound_mode/permission_handler.dart';
+import 'package:vaktijaba_fl/components/alarm_dialogue.dart';
 import 'package:vaktijaba_fl/data/data.dart';
+import 'package:vaktijaba_fl/function/show_full_screen.dart';
+import 'package:vaktijaba_fl/home/battery_dialogue.dart';
 import 'package:vaktijaba_fl/home/home_tabs/tab_calendar.dart';
-import 'package:vaktijaba_fl/home/home_tabs/tab_kibla.dart';
-import 'package:vaktijaba_fl/home/home_tabs/tab_kibla_compass.dart';
+import 'package:vaktijaba_fl/home/home_tabs/tab_kibla/tab_kibla.dart';
 import 'package:vaktijaba_fl/home/home_tabs/tab_settings.dart';
 import 'package:vaktijaba_fl/home/home_tabs/tab_vaktija.dart';
 import 'package:vaktijaba_fl/services/calendar_state_provider.dart';
 import 'package:vaktijaba_fl/services/notification_service.dart';
-import 'package:vaktijaba_fl/services/state_provider.dart';
+import 'package:vaktijaba_fl/services/vaktija_state_provider.dart';
 
 class HomeScreen extends StatefulWidget {
+  static const String routeName = '/';
+
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
@@ -19,12 +31,20 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen>
     with SingleTickerProviderStateMixin {
+  static StreamSubscription<AlarmSettings>? subscription;
   late TabController _tabController;
   int currentTab = 0;
+  bool isRinging = false;
+  bool rescheduleComplete = false;
+  final DateTime startDate = DateTime.now();
 
   @override
   void initState() {
     super.initState();
+    if (Alarm.android) {
+      checkAndroidNotificationPermission();
+      checkAndroidScheduleExactAlarmPermissionInit();
+    }
     _tabController = TabController(length: 4, vsync: this, initialIndex: 0)
       ..addListener(() {
         setState(() {
@@ -32,31 +52,103 @@ class _HomeScreenState extends State<HomeScreen>
         });
         setSelectedDate(context, DateTime.now());
       });
-    loadNotifications();
+    //requestNotificationPermissions();
+    subscription ??= Alarm.ringStream.stream.listen(handleAlarm);
+    // handleLocalNotification();
+    checkBatteryOptimisation();
+    initLocalNotifications();
+    //loadNotificationsSchedule();
   }
 
-  Future handleLocalNotification(String? payload) async {
-   print('notification tapped');
+  initLocalNotifications() async {
+    await NotificationService().init(
+      handleNotification: runScheduleTask
+    );
+    await NotificationService().requestPermissions();
+    loadNotificationsSchedule();
   }
 
-  loadNotifications() async {
-    //initLocalNotification() async {
-      await NotificationService().init();
-   // }
-    Future.delayed(Duration(milliseconds: 300),(){
-      Provider.of<VaktijaDateTimeProvider>(context, listen: false).startVaktijaTimer();
-    });
+  checkBatteryOptimisation() async {
+    if (Platform.isAndroid) {
+      bool batteryOptimisationDisabled =
+          (await DisableBatteryOptimization.isBatteryOptimizationDisabled)!;
+      bool doNotDisturbPermission =
+          await PermissionHandler.permissionsGranted ?? false;
+      if (!batteryOptimisationDisabled || !doNotDisturbPermission) {
+        showFullscreen(
+          context: context,
+          child: BatteryDialogue(
+            runSchedule: runScheduleTask,
+          ),
+          dismissible: false,
+        );
+      }
+    }
+  }
+
+  Future<void> handleAlarm(AlarmSettings alarm) async {
+    isRinging = await Alarm.isRinging(alarm.id);
+    if (isRinging) {
+      showFullscreen(
+        context: context,
+        child: AlarmDialogue(
+          alarmSettings: alarm,
+          runScheduleTask: runScheduleTask,
+        ),
+        bgOpacity: 0.95,
+        dismissible: false,
+      );
+    }
+  }
+
+  loadNotificationsSchedule() async {
+    Future.delayed(
+      const Duration(milliseconds: 100),
+      () {
+        if (!isRinging) {
+          runScheduleTask();
+        }
+      },
+    );
+  }
+
+  Future<void> checkAndroidNotificationPermission() async {
+    final status = await Permission.notification.status;
+    if (status.isDenied) {
+      alarmPrint('Requesting notification permission...');
+      final res = await Permission.notification.request();
+      alarmPrint(
+        'Notification permission ${res.isGranted ? '' : 'not '}granted',
+      );
+    }
+  }
+
+  Future<void> checkAndroidScheduleExactAlarmPermissionInit() async {
+    final status = await Permission.scheduleExactAlarm.status;
+    alarmPrint('Schedule exact alarm permission: $status.');
+    if (status.isDenied) {
+      alarmPrint('Requesting schedule exact alarm permission...');
+      final res = await Permission.scheduleExactAlarm.request();
+      alarmPrint(
+        'Schedule exact alarm permission ${res.isGranted ? '' : 'not'} granted',
+      );
+    }
+  }
+
+  runScheduleTask() {
+    Provider.of<StateProviderVaktija>(context, listen: false)
+        .scheduleVakat(delay: false);
   }
 
   @override
   Widget build(BuildContext context) {
-    //bool isDarkModeOn = isDarkMode(context);
     Color iconColor = Theme.of(context).indicatorColor;
-    List tabs = const [
-      HomeTabVaktija(),
-      HomeTabCalendar(),
-      HomeTabKibla(),
-      HomeTabSettings()
+    List tabs = [
+      HomeTabVaktija(
+          dateTimeStart: startDate, runScheduleTask: runScheduleTask),
+      const HomeTabCalendar(),
+      const HomeTabKibla(),
+      const HomeTabSettings()
     ];
     return Scaffold(
       /// backgroundColor: isDarkModeOn ? Colors.black : Colors.white,
@@ -76,16 +168,17 @@ class _HomeScreenState extends State<HomeScreen>
           labelColor: iconColor,
           indicatorColor: Colors.transparent,
           tabs: List.generate(
-              tabIcons.length,
-              (index) => Tab(
-                    child: Image.asset(
-                      tabIcons[index],
-                      height: 24.0,
-                      color: currentTab == index
-                          ? iconColor
-                          : iconColor.withOpacity(0.3),
-                    ),
-                  )),
+            tabIcons.length,
+            (index) => Tab(
+              child: Image.asset(
+                tabIcons[index],
+                height: 24.0,
+                color: currentTab == index
+                    ? iconColor
+                    : iconColor.withOpacity(0.3),
+              ),
+            ),
+          ),
         ),
       ),
     );

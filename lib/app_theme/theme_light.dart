@@ -138,6 +138,7 @@ ThemeData appThemeLight({double? fontSizeMultiplier}) {
       colorScheme: ColorScheme.light(
         brightness: Brightness.light,
         primaryContainer: AppColors.containerColor,
+        secondaryContainer: AppColors.containerSecondaryColor,
         primary: AppColors.iconColor,
         surface: AppColors.scaffoldBg,
       ),
@@ -146,6 +147,10 @@ ThemeData appThemeLight({double? fontSizeMultiplier}) {
         elevation: 0.0, // defPadding/2,
         shadowColor: Colors.transparent,
         centerTitle: true,
+        iconTheme: IconThemeData(
+            color: AppColors.colorAction,
+            size: 22.0
+        ),
       ),
       bottomNavigationBarTheme: BottomNavigationBarThemeData(
         backgroundColor: AppColors.bottomNavigationBG,

@@ -5,9 +5,18 @@ class TextBodySmall extends StatelessWidget {
   final italic;
   final color;
   final TextAlign? textAlign;
+  final FontWeight? fontWeight;
+  final double? fontSize;
 
-  const TextBodySmall({Key? key, this.text, this.italic, this.color, this.textAlign})
-      : super(key: key);
+  const TextBodySmall({
+    Key? key,
+    this.text,
+    this.italic,
+    this.color,
+    this.textAlign,
+    this.fontWeight,
+    this.fontSize,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +29,8 @@ class TextBodySmall extends StatelessWidget {
       textAlign: textAlign,
       style: textStyle.copyWith(
         color: color,
-        fontWeight: FontWeight.w300,
+        fontWeight: fontWeight ?? FontWeight.w300,
+        fontSize: fontSize,
         fontStyle: isItalic ? FontStyle.italic : FontStyle.normal,
       ),
     );

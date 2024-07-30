@@ -9,7 +9,7 @@ List<ThemeMode> themeModes = [
 ];
 
 int themeModeInit = 1;
-double fontSizeIncreaseInit = 1.0;
+double fontSizeIncreaseInit = 0.0;
 
 class StateAppTheme extends ChangeNotifier {
   //bool _darkTheme = darkModeInitValue;

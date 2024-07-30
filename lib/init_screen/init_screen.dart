@@ -5,7 +5,7 @@
 // import 'package:vaktijaba_fl/components/screen_loader.dart';
 // import 'package:vaktijaba_fl/function/dark_mode_check.dart';
 // import 'package:vaktijaba_fl/home/home_screen.dart';
-// import 'package:vaktijaba_fl/services/state_provider.dart';
+// import 'package:vaktijaba_fl/services/vaktija_state_provider.dart';
 //
 // import '../data/data.dart';
 //

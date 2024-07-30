@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vaktijaba_fl/app_theme/theme_data.dart';
 import 'package:vaktijaba_fl/data/data.dart';
 import 'package:vaktijaba_fl/function/dark_mode_check.dart';
 
@@ -122,6 +123,7 @@ class _scrollItem extends StatelessWidget {
         textScaleFactor: 1.0,
         style: textStyle.copyWith(
           fontWeight: FontWeight.w600,
+          fontSize: AppFont.sizeTitleL,
           color: isSelected ? null : textStyle.color!.withOpacity(0.5),
         ),
         //

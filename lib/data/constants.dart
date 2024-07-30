@@ -6,6 +6,7 @@ const double bottomNavigationHeight = 45.0;
 
 const double blogItemHeight = 125.0;
 
+const Gap gap2 = Gap(defPadding/4);
 const Gap gap4 = Gap(defPadding/2);
 const Gap gap8 = Gap(defPadding);
 const Gap gap16 = Gap(defPadding*2);

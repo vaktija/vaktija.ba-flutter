@@ -85,7 +85,9 @@ flutter {
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.9.20"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.9.23"
     implementation 'com.android.support:multidex:1.0.3'
+    implementation "androidx.work:work-runtime:2.7.1"
+    implementation 'com.google.android.gms:play-services-location:21.3.0'
 }
 

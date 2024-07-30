@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -5,6 +6,9 @@ import 'package:flutter_qiblah/flutter_qiblah.dart';
 import 'package:vaktijaba_fl/components/screen_loader.dart';
 import 'package:vaktijaba_fl/data/constants.dart';
 import 'package:vaktijaba_fl/function/dark_mode_check.dart';
+import 'package:vaktijaba_fl/function/show_full_screen.dart';
+import 'package:vaktijaba_fl/home/home_tabs/tab_kibla/tab_kibla_calibration_guide.dart';
+import 'package:geolocator/geolocator.dart';
 
 class HomeTabKiblaCompass extends StatefulWidget {
   const HomeTabKiblaCompass({Key? key}) : super(key: key);
@@ -14,6 +18,45 @@ class HomeTabKiblaCompass extends StatefulWidget {
 }
 
 class _HomeTabKiblaCompassState extends State<HomeTabKiblaCompass> {
+  final _locationStreamController =
+      StreamController<LocationStatus>.broadcast();
+
+  Stream<LocationStatus> get stream => _locationStreamController.stream;
+
+  @override
+  void initState() {
+    super.initState();
+    _checkLocationStatus();
+    showCalibrationGuide();
+  }
+
+  Future<void> _checkLocationStatus() async {
+    final locationStatus = await FlutterQiblah.checkLocationStatus();
+    if (locationStatus.enabled &&
+        locationStatus.status == LocationPermission.denied) {
+      await FlutterQiblah.requestPermissions();
+      final s = await FlutterQiblah.checkLocationStatus();
+      _locationStreamController.sink.add(s);
+    } else
+      _locationStreamController.sink.add(locationStatus);
+  }
+
+  showCalibrationGuide() {
+    Future.delayed(const Duration(milliseconds: 100), () {
+      showFullscreen(
+          context: context,
+          child: const TabKiblaCalibrationGuide(),
+          dismissible: false);
+    });
+  }
+
+  @override
+  void dispose() {
+    _locationStreamController.close();
+    FlutterQiblah().dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     var screenSize = MediaQuery.of(context).size;

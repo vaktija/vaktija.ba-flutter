@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hijri/hijri_calendar.dart';
 import 'package:vaktijaba_fl/components/text_styles/text_body_small.dart';
-import 'package:vaktijaba_fl/services/state_provider.dart';
+import 'package:vaktijaba_fl/services/vaktija_state_provider.dart';
 
 import '../data/data.dart';
 import '../function/open_new_screen.dart';

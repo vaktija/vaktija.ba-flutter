@@ -137,9 +137,10 @@ ThemeData appThemeDark({double? fontSizeMultiplier}) {
       surface: AppColors.scaffoldBgDark,
       primary: AppColors.iconColorDark,
       primaryContainer: AppColors.containerColorDark,
+      secondaryContainer: AppColors.containerSecondaryColorDark,
     ),
     iconTheme: IconThemeData(
-      color: AppColors.iconColorDark, //colorGreyDark
+      color: AppColors.iconColorDark,
       size: 22.0,
     ),
     appBarTheme: AppBarTheme(
@@ -147,6 +148,10 @@ ThemeData appThemeDark({double? fontSizeMultiplier}) {
       //foregroundColor: AppColors.scaffoldBg,
       //surfaceTintColor: AppColors.scaffoldBg,
       //color: AppColors.scaffoldBg,
+      iconTheme: IconThemeData(
+        color: AppColors.colorAction,
+        size: 22.0
+      ),
       elevation: 0.0,//defPadding/2,
       centerTitle: true,
       shadowColor: Colors.transparent,

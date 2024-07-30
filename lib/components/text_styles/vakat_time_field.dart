@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:vaktijaba_fl/app_theme/theme_data.dart';
 
 class TextVakatTime extends StatelessWidget {
   final text;
+  final Color? color;
 
-  const TextVakatTime({Key? key, this.text}) : super(key: key);
+  const TextVakatTime({Key? key, this.text, this.color}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    TextStyle textStyle = Theme.of(context).textTheme.headlineMedium!;
+    TextStyle textStyle = Theme.of(context).textTheme.headlineLarge!;
     return Text(
       text ?? 'vakat vrijeme',
       textScaleFactor: 1.0,
       style: textStyle.copyWith(
         fontWeight: FontWeight.w700,
-        fontSize: AppFont.sizeHeadlineM + 4.0,
-        color: textStyle.color!.withOpacity(0.65),
+        //fontSize: AppFont.sizeHeadlineL + 6.0,
+        color: color ?? textStyle.color!.withOpacity(0.65),
       ),
     );
   }

@@ -9,14 +9,18 @@ List tabIcons = [
 
 List gradovi = [];
 
+List ezaniBiH = [
+  'assets/ezan/ezan.mp3'
+];
+
 var vaktijaData;
 var differences;
 
 String podneVakatTakvim = 'Stvarno vrijeme';
 String podneVakatAdet = 'Standardno vrijeme (12h/13h)';
 
-String dzumaVakatTakvim = 'Neće biti razlike između postavki za podne i džumu.';
-String dzumaVakatAdet = 'Koristit će se posebne postavke za džumu.';
+String dzumaVakatTakvim = 'Postavke kao i za podne-namaz.';
+String dzumaVakatAdet = 'Posebne postavke za džumu-namaz aktivne.';
 
 List daniSedmiceShort = ['pon', 'uto', 'sri', 'čet', 'pet', 'sub', 'ned'];
 

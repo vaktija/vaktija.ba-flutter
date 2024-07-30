@@ -3,13 +3,10 @@ import 'package:hijri/hijri_calendar.dart';
 import 'package:quiver/time.dart';
 import 'package:vaktijaba_fl/app_theme/theme_data.dart';
 import 'package:vaktijaba_fl/components/calender_picker_wheel.dart';
-import 'package:vaktijaba_fl/components/horizontal_separator.dart';
 import 'package:vaktijaba_fl/components/text_styles/text_body_medium.dart';
-import 'package:vaktijaba_fl/components/vertical_separator.dart';
 import 'package:vaktijaba_fl/data/constants.dart';
 import 'package:vaktijaba_fl/data/data.dart';
 import 'package:vaktijaba_fl/date_screen/selected_date_screen.dart';
-import 'package:vaktijaba_fl/function/dark_mode_check.dart';
 import 'package:vaktijaba_fl/function/open_new_screen.dart';
 import 'package:vaktijaba_fl/services/calendar_state_provider.dart';
 
@@ -139,7 +136,7 @@ class _HomeTabCalendarState extends State<HomeTabCalendar> {
           bold: true,
         ),
         //backgroundColor: Colors.transparent,
-       // elevation: 0,
+        // elevation: 0,
         //shadowColor: Colors.transparent,
         centerTitle: true,
         iconTheme: IconThemeData(color: AppColors.colorTitle),

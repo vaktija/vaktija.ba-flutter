@@ -12,7 +12,7 @@ import 'package:vaktijaba_fl/data/data.dart';
 import 'package:vaktijaba_fl/function/capitalize_letter.dart';
 import 'package:vaktijaba_fl/function/dark_mode_check.dart';
 import 'package:vaktijaba_fl/function/sort_list_items.dart';
-import 'package:vaktijaba_fl/services/state_provider.dart';
+import 'package:vaktijaba_fl/services/vaktija_state_provider.dart';
 
 class LocationSearchScreen extends StatefulWidget {
   final closeFilter;
@@ -150,7 +150,7 @@ class _LocationSearchScreenState extends State<LocationSearchScreen> {
                         length: listaGradova.length,
                         //closeFilter: widget.closeFilter,
                         onTap: () {
-                          setVaktijaLocation(context, locationIndex);
+                          //setVaktijaLocation(context, locationIndex);
                           Navigator.pop(context);
                           widget.closeFilter();
                         },
@@ -184,8 +184,8 @@ class _LocationSearchScreenState extends State<LocationSearchScreen> {
                       //closeFilter: widget.closeFilter,
                       isRadioIcon: false,
                       onTap: () {
-                        setVaktijaLocation(
-                            context, locationIndex);
+                        // setVaktijaLocation(
+                        //     context, locationIndex);
                         Navigator.pop(context);
                         widget.closeFilter();
                       },
