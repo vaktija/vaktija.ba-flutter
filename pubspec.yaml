@@ -3,7 +3,7 @@ description: Vaktija za BiH
 
 publish_to: 'none'
 
-version: 2.1.1+2010101
+version: 2.1.1+2010102
 
 environment:
   sdk: ">=3.0.0 <4.0.0"

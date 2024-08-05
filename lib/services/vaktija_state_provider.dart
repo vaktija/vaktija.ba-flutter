@@ -300,25 +300,25 @@ class StateProviderVaktija extends ChangeNotifier {
                     notificationItemsVakat.add(notificationItem);
                   }
                 }
+              }
 
-                //vakatTimer
-                if (_vaktijaSettings.permanentVaktija! &&
-                    vakatDateTime.isAfter(DateTime.now())) {
-                  if (permanentNotifications.length <
-                      _totalVakatNotifications) {
-                    int id = ((indexDana + 1) * 1000) + (vakatIndex + 1);
-                    permanentNotifications.add(
-                      PermanentNotificationDataItem(
-                        id: id,
-                        vakatIndex: vakatIndex,
-                        title: vakatSettingsModel.shortName,
-                        titleFull: vakatSettingsModel.fullName,
-                        vakatTimeHHMM: vakatTimeHHMM,
-                        vakatDateTime: vakatDateTime,
-                        bodyId: indexDana,
-                      ),
-                    );
-                  }
+              //vakatTimer
+              if (_vaktijaSettings.permanentVaktija! &&
+                  vakatDateTime.isAfter(DateTime.now())) {
+                if (permanentNotifications.length <
+                    _totalVakatNotifications) {
+                  int id = ((indexDana + 1) * 1000) + (vakatIndex + 1);
+                  permanentNotifications.add(
+                    PermanentNotificationDataItem(
+                      id: id,
+                      vakatIndex: vakatIndex,
+                      title: vakatSettingsModel.shortName,
+                      titleFull: vakatSettingsModel.fullName,
+                      vakatTimeHHMM: vakatTimeHHMM,
+                      vakatDateTime: vakatDateTime,
+                      bodyId: indexDana,
+                    ),
+                  );
                 }
               }
 
@@ -359,6 +359,7 @@ class StateProviderVaktija extends ChangeNotifier {
                 }
               }
             }
+
             bodyData.add(
               totalVakats.join('<br>'),
             );
