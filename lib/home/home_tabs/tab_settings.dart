@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:vaktijaba_fl/app_theme/font_size_selector.dart';
+import 'package:vaktijaba_fl/app_theme/theme_data.dart';
 import 'package:vaktijaba_fl/app_theme/theme_settings_switch.dart';
 import 'package:vaktijaba_fl/components/divider/horizontal_divider.dart';
 import 'package:vaktijaba_fl/components/horizontal_separator.dart';
@@ -42,9 +43,10 @@ class _HomeTabSettingsState extends State<HomeTabSettings> {
     VaktijaSettingsModel vaktijaSettingsModel =
         stateProviderVaktija.vaktijaSettings;
     int grad = vaktijaSettingsModel.currentCity!;
-   // bool podneVrijemeFixed = vaktijaSettingsModel.zuhrTimeFixed!;
+    // bool podneVrijemeFixed = vaktijaSettingsModel.zuhrTimeFixed!;
     bool dnevnaVaktija = vaktijaSettingsModel.permanentVaktija!;
     bool dzumaSpecial = vaktijaSettingsModel.dzumaSpecial!;
+    double separatorHeight = defPadding * 5;
 
     return Scaffold(
       //backgroundColor: isDarkModeOn ? Colors.black : Colors.white,
@@ -83,75 +85,92 @@ class _HomeTabSettingsState extends State<HomeTabSettings> {
             bold: true,
           ),
           ThemeSettingsSwitch(),
-          gap8,
+          gap16,
           FontSizeSelector(),
-          const DividerCustomHorizontal(
-            height: defPadding * 3,
-          ),
-          const TextBodyMedium(
-            text: 'Lokacija',
-            bold: true,
+          DividerCustomHorizontal(
+            height: separatorHeight,
           ),
           InkWell(
             onTap: () {
               openNewScreen(context, const LocationScreen(), 'lokacija');
             },
             child: Container(
-              padding: EdgeInsets.symmetric(vertical: defaultPadding),
+              decoration: BoxDecoration(
+                  color: Theme.of(context).scaffoldBackgroundColor),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  TextBodyMedium(
-                    text: gradovi[grad],
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const TextBodyMedium(
+                        text: 'Lokacija',
+                        bold: true,
+                      ),
+                      gap4,
+                      TextBodyMedium(
+                        text: gradovi[grad],
+                        bold: false,
+                      ),
+                    ],
                   ),
                   Icon(
                     Icons.arrow_forward_ios_rounded,
-                    color: Theme.of(context).iconTheme.color,
+                    color: AppColors.colorAction,
                   )
                 ],
               ),
             ),
           ),
-          gap16,
           if (Platform.isAndroid) ...[
-            const DividerCustomHorizontal(),
-            gap16,
-            TextBodyMedium(
-              text: Platform.isAndroid
-                  ? 'Stalna vaktija u notifikaciji'
-                  : 'Dnevna vaktija u notifikaciji',
-              bold: true,
+            DividerCustomHorizontal(
+              height: separatorHeight,
             ),
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: defaultPadding),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    child: TextBodyMedium(
-                      text: Platform.isAndroid
-                          ? 'Prikaži stalnu vaktiju'
-                          : 'Prikaži dnevnu vaktiju',
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const TextBodyMedium(
+                      text: 'Stalna vaktija u notifikaciji',
                       bold: false,
-                      //color: colorLightShade,
                     ),
-                  ),
-                  const HorizontalListSeparator(
-                    width: 1,
-                  ),
-                  ToggleSwitch(
-                    toggleState: dnevnaVaktija,
-                    onTap: () {
-                      vaktijaSettingsModel.permanentVaktija = !dnevnaVaktija;
-                      updateVaktijaSettings(context, vaktijaSettingsModel);
-                    },
-                  )
-                ],
-              ),
+                    gap4,
+                    TextBodySmall(
+                      text:
+                          'Stalna vaktija ${dnevnaVaktija ? '' : 'de'}aktivirana.',
+                    ),
+                  ],
+                ),
+                gap8,
+                ToggleSwitch(
+                  toggleState: dnevnaVaktija,
+                  onTap: () {
+                    vaktijaSettingsModel.permanentVaktija = !dnevnaVaktija;
+                    updateVaktijaSettings(context, vaktijaSettingsModel);
+                  },
+                ),
+              ],
             ),
             gap16,
+            CheckboxListTile(
+              contentPadding: EdgeInsets.zero,
+              activeColor: AppColors.colorAction,
+              value: vaktijaSettingsModel.permanentVaktijaDailyVakats ?? true,
+              title: const TextBodySmall(
+                text: 'Dnevna vaktija u stalnoj notifikaciji',
+              ),
+              onChanged: !dnevnaVaktija ? null : (newValue) {
+                vaktijaSettingsModel.permanentVaktijaDailyVakats =
+                    newValue ?? true;
+                updateVaktijaSettings(context, vaktijaSettingsModel);
+              },
+            )
           ],
-          const DividerCustomHorizontal(),
+          DividerCustomHorizontal(
+            height: separatorHeight,
+          ),
           // gap16,
           // const TextBodyMedium(
           //   text: 'Podne-namaz',
@@ -198,7 +217,7 @@ class _HomeTabSettingsState extends State<HomeTabSettings> {
           //     ],
           //   ),
           // ),
-          gap16,
+          //gap16,
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -213,9 +232,7 @@ class _HomeTabSettingsState extends State<HomeTabSettings> {
                       bold: false,
                       //color: colorLightShade,
                     ),
-                    const VerticalListSeparator(
-                      height: 0.5,
-                    ),
+                    gap4,
                     TextBodySmall(
                       text: !dzumaSpecial ? dzumaVakatTakvim : dzumaVakatAdet,
                       italic: false,
@@ -235,8 +252,8 @@ class _HomeTabSettingsState extends State<HomeTabSettings> {
               )
             ],
           ),
-          const DividerCustomHorizontal(
-            height: defPadding * 8,
+          DividerCustomHorizontal(
+            height: separatorHeight,
           ),
           InkWell(
             onTap: () {
@@ -267,8 +284,8 @@ class _HomeTabSettingsState extends State<HomeTabSettings> {
               ],
             ),
           ),
-          const DividerCustomHorizontal(
-            height: defPadding * 8,
+          DividerCustomHorizontal(
+            height: separatorHeight,
           ),
           InkWell(
             enableFeedback: false,
@@ -306,16 +323,20 @@ class _HomeTabSettingsState extends State<HomeTabSettings> {
                 italic: false,
               ),
               gap8,
-              TextBodySmall(
-                text: 'by ark@DEV',
-                italic: false,
-                color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.1),
-              ),
+              // TextBodySmall(
+              //   text: 'by ark@DEV',
+              //   italic: false,
+              //   color: Theme.of(context)
+              //       .textTheme
+              //       .bodyLarge!
+              //       .color!
+              //       .withOpacity(0.1),
+              // ),
             ],
           ),
-          gap16,
-          const DividerCustomHorizontal(),
-          gap32,
+          DividerCustomHorizontal(
+            height: separatorHeight,
+          ),
           Align(
             alignment: Alignment.center,
             child: SizedBox(
@@ -327,7 +348,15 @@ class _HomeTabSettingsState extends State<HomeTabSettings> {
               ),
             ),
           ),
-          gap32,
+          gap16,
+          TextBodySmall(
+            text: 'by ark@DEV',
+            italic: false,
+            textAlign: TextAlign.center,
+            color:
+                Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.25),
+          ),
+          gap4,
         ],
       ),
     );

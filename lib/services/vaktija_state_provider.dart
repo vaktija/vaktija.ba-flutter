@@ -18,14 +18,15 @@ import 'package:vaktijaba_fl/function/alarm_permission.dart';
 import 'package:vaktijaba_fl/function/check_dst.dart';
 import 'package:vaktijaba_fl/function/date_2_hijra.dart';
 import 'package:vaktijaba_fl/function/sec_2_hhmm.dart';
+import 'package:vaktijaba_fl/function/show_snackbar_message.dart';
 import 'package:vaktijaba_fl/services/alarm_service.dart';
 import 'package:vaktijaba_fl/services/notification_service.dart';
 import 'package:workmanager/workmanager.dart';
 
 List<VakatSettingsModel> vaktoviInit = [
   VakatSettingsModel(
-    vakatName: 'Zora',
-    fullName: 'Zora',
+    vakatName: 'Zora/Sabah',
+    fullName: 'Sabah-namaz',
     shortName: 'Zora',
     vakatIndex: 0,
   ),
@@ -75,15 +76,14 @@ bool showHintFieldInit = true;
 
 void updateVakatSettings(BuildContext context,
         VakatSettingsModel vakatSettingsModel, int index) =>
-    Provider.of<StateProviderVaktija>(context, listen: false).setVakatValues(
-      index: index,
-      vakatSettingsModel: vakatSettingsModel,
-    );
+    Provider.of<StateProviderVaktija>(context, listen: false)
+        .setVakatValues(index: index, vakatSettingsModel: vakatSettingsModel);
 
 void updateVaktijaSettings(
         BuildContext context, VaktijaSettingsModel vaktijaSettingsModel) =>
-    Provider.of<StateProviderVaktija>(context, listen: false)
-        .setVaktijaValues(vaktijaSettingsModel: vaktijaSettingsModel);
+    Provider.of<StateProviderVaktija>(context, listen: false).setVaktijaValues(
+      vaktijaSettingsModel: vaktijaSettingsModel,
+    );
 
 void hideHint(BuildContext context) =>
     Provider.of<StateProviderVaktija>(context, listen: false).hideHint();
@@ -104,6 +104,14 @@ class StateProviderVaktija extends ChangeNotifier {
   bool get showHintField => _showHintField;
 
   Timer _timer = Timer(Duration(seconds: 0), () {});
+
+  final Duration _snackDuration = const Duration(milliseconds: 2500);
+
+  // EdgeInsetsGeometry _snackbarMargin(BuildContext context) {
+  //   return EdgeInsets.only(
+  //     top: MediaQuery.of(context).size.height - 500,
+  //   );
+  // }
 
   setVakatValues({
     required int index,
@@ -153,10 +161,39 @@ class StateProviderVaktija extends ChangeNotifier {
     if (_timer.isActive) {
       _timer.cancel();
     }
+    try {
+      removeSnackbarAll();
+      showSnackbarMessage(
+        message: 'Podešavam notifikacije!',
+        //margin: _snackbarMargin(context),
+        duration: Duration(seconds: 15),
+        //behavior: SnackBarBehavior.floating
+      );
+    } catch (e) {
+      print(e);
+    }
     _timer = Timer(
       Duration(seconds: delay ?? true ? 4 : 0),
       () async {
+        //app update vaktovi settings here
+        if (_vaktovi[0].vakatName != 'Zora/Sabah') {
+          _vaktovi[0].vakatName = 'Zora/Sabah';
+          notifyListeners();
+          saveVaktoviSettings();
+        }
+        if (_vaktovi[0].fullName != 'Sabah-namaz') {
+          _vaktovi[0].fullName = 'Sabah-namaz';
+          notifyListeners();
+          saveVaktoviSettings();
+        }
         if (vaktijaData != null) {
+          //remove current
+          await Alarm.stopAll();
+          if (Platform.isAndroid) {
+            Workmanager().cancelAll();
+          }
+          NotificationService().cancelNotificationAll();
+
           int currentCity = vaktijaSettings.currentCity!;
           int podneDefaultTime = 43200;
           int totalAlarms = 3;
@@ -187,6 +224,7 @@ class StateProviderVaktija extends ChangeNotifier {
                   dzumaSpecial &&
                   date.weekday == DateTime.friday) {
                 vakatSettingsModel = _vaktovi[6];
+                print('posebno za dzumu');
               }
               bool zuhrFixedTime = vakatSettingsModel.fixedTime ?? false;
               bool showAlarm = vakatSettingsModel.alarmShow!;
@@ -211,14 +249,15 @@ class StateProviderVaktija extends ChangeNotifier {
               if (showAlarm && newAlarms.length < totalAlarms) {
                 int id = ((indexDana + 1) * 10) + (vakatIndex + 1);
                 int alarmOffset = vakatSettingsModel.alarmTimeOut!;
-                DateTime scheduleDate = vakatDateTime.subtract(
+                DateTime scheduleDateAlarm = vakatDateTime.subtract(
                   Duration(seconds: alarmOffset),
                 );
-                if (scheduleDate.isAfter(DateTime.now())) {
+
+                if (scheduleDateAlarm.isAfter(DateTime.now())) {
                   AlarmSettings vakatAlarm = vakatAlarmData(
                     id: id,
-                    vakatTimeDate: vakatDateTime,
-                    scheduledDate: scheduleDate,
+                    vakatTimeDateTime: vakatDateTime,
+                    scheduledDateTime: scheduleDateAlarm,
                     vakatSettingsModel: vakatSettingsModel,
                   );
                   newAlarms.add(vakatAlarm);
@@ -254,7 +293,7 @@ class StateProviderVaktija extends ChangeNotifier {
                     body: body,
                     vakatDateTime: vakatDateTime,
                     scheduleDateTime: scheduleDateTime,
-                    timeoutAfter: notificationOffset,
+                    timeoutAfterMS: notificationOffset * 1000,
                   );
                   if (notificationItemsVakat.length <
                       _totalVakatNotifications) {
@@ -266,12 +305,14 @@ class StateProviderVaktija extends ChangeNotifier {
                 if (_vaktijaSettings.permanentVaktija! &&
                     vakatDateTime.isAfter(DateTime.now())) {
                   if (permanentNotifications.length <
-                      _totalVakatNotifications + 1) {
-                    int id = ((indexDana + 1) * 10) + (vakatIndex + 1);
+                      _totalVakatNotifications) {
+                    int id = ((indexDana + 1) * 1000) + (vakatIndex + 1);
                     permanentNotifications.add(
                       PermanentNotificationDataItem(
                         id: id,
+                        vakatIndex: vakatIndex,
                         title: vakatSettingsModel.shortName,
+                        titleFull: vakatSettingsModel.fullName,
                         vakatTimeHHMM: vakatTimeHHMM,
                         vakatDateTime: vakatDateTime,
                         bodyId: indexDana,
@@ -285,6 +326,7 @@ class StateProviderVaktija extends ChangeNotifier {
               if (deviceSilent && Platform.isAndroid) {
                 int timeOut = vakatSettingsModel.deviceSilentTime!;
                 DateTime date = vakatDateTime;
+
                 if (vakatSettingsModel.silentBefore!) {
                   date = vakatDateTime.subtract(
                     Duration(
@@ -294,13 +336,13 @@ class StateProviderVaktija extends ChangeNotifier {
                 }
                 DateTime timeOutDate = date.add(Duration(seconds: timeOut));
 
-
                 //TODO forTesting
                 // date = DateTime.now().add(Duration(
                 //     seconds: ((indexDana + 1) + (vakatIndex + 1)) * 45));
                 // timeOutDate = date.add(Duration(seconds: 30));
                 // print('iskljuci $date --- ukljuci $timeOutDate');
-
+                print(
+                    '${vakatSettingsModel.fullName} -- ${timeOut ~/ 60} min\n$date -> $timeOutDate');
                 DeviceSilentDataItem deviceSilentDataItem =
                     DeviceSilentDataItem(
                   id: ((indexDana + 1) * 100) + (vakatIndex + 1),
@@ -310,8 +352,8 @@ class StateProviderVaktija extends ChangeNotifier {
 
                 if (date.isAfter(DateTime.now()) ||
                     timeOutDate.isAfter(DateTime.now())) {
-                  if (deviceSilentItems.length < 3 //_totalVakatNotifications
-                      ) {
+                  if (notificationItemsVakat.length <
+                      _totalVakatNotifications) {
                     deviceSilentItems.add(deviceSilentDataItem);
                   }
                 }
@@ -321,38 +363,73 @@ class StateProviderVaktija extends ChangeNotifier {
               totalVakats.join('<br>'),
             );
           }
-          NotificationService().cancelNotificationAll();
-          //await AwesomeNotifications().cancelAll();
-          await Alarm.stopAll();
-
-          //scheduleAlarm
-          for (AlarmSettings alarmSettings in newAlarms) {
-            if (Platform.isAndroid) {
-              bool alarmPermission =
-                  await checkAndroidScheduleExactAlarmPermission();
-              if (alarmPermission) {
-                await Alarm.set(alarmSettings: alarmSettings);
-              }
-            } else {
-              await Alarm.set(alarmSettings: alarmSettings);
-            }
-          }
 
           //start vakat timer & device silent - Android only
           if (Platform.isAndroid) {
             if (permanentNotifications.isNotEmpty) {
-              for (int i = 0; i < permanentNotifications.length; i++) {
-                PermanentNotificationDataItem item = permanentNotifications[i];
+              for (int i = 0; i < permanentNotifications.length - 1; i++) {
                 bool isFirst = i == 0;
-                DateTime scheduleDateTime =
-                    permanentNotifications[i - (isFirst ? 0 : 1)].vakatDateTime;
+                int index = i;
+
+                if (!isFirst) {
+                  index = i - 1;
+                }
+                PermanentNotificationDataItem item =
+                    permanentNotifications[index];
+                PermanentNotificationDataItem itemNext =
+                    permanentNotifications[index + 1];
+
+                String title = item.title;
+                String titleFull = item.titleFull;
+                String titleNext = itemNext.title;
+                String timeNext = itemNext.vakatTimeHHMM;
+                String bodyContent = '';
+                //bool isFirst = i == 0;
+                if (isFirst) {
+                  if (item.vakatIndex == 0) {
+                    titleFull = 'Jacija-namaz';
+                  } else {
+                    titleFull = vaktovi[item.vakatIndex - 1].fullName;
+                  }
+                  titleNext = item.title;
+                  timeNext = item.vakatTimeHHMM;
+                }
+                DateTime scheduleDateTime = item.vakatDateTime;
+                int timeoutAfterMS = 10000;
+
+                if (isFirst) {
+                  timeoutAfterMS = item.vakatDateTime
+                      .difference(DateTime.now())
+                      .inMilliseconds;
+                } else {
+                  timeoutAfterMS = itemNext.vakatDateTime
+                      .difference(item.vakatDateTime)
+                      .inMilliseconds;
+                }
+
+                //if(i>0){
+                // String timeOutHHMM = secondsToHHMM(timeoutAfterMS~/1000);
+                // print('$titleFull -- $titleNext');
+                // print('${item.vakatTimeHHMM} -- $timeOutHHMM -- $timeNext');
+                //}
+
+                if (titleFull.contains('sunca')) {
+                  titleFull = 'Duha-namaz';
+                }
+
+                if (_vaktijaSettings.permanentVaktijaDailyVakats ?? true) {
+                  bodyContent = '<br>${bodyData[item.bodyId]}';
+                }
+
                 ModelNotificationItem notificationItem = buildNotificationTimer(
-                  id: item.id,
-                  body:
-                      '${item.title}: <b>${item.vakatTimeHHMM}</b><br>${bodyData[item.bodyId]}',
+                  id: isFirst ? FixedNotificationId.firstPermanenet : item.id,
+                  body: '🤲&nbsp;&nbsp;<b>$titleFull</b>&nbsp;&nbsp;&nbsp;'
+                      '&nbsp;&nbsp;&nbsp;➡️&nbsp;&nbsp;'
+                      '$titleNext: <b>$timeNext</b>$bodyContent',
                   vakatDateTime: item.vakatDateTime,
-                  scheduleDateTime: scheduleDateTime,
+                  vakatDateTimeNext: isFirst ? null : itemNext.vakatDateTime,
                   isFirst: isFirst,
+                  timeoutAfterMS: timeoutAfterMS,
                 );
                 notificationItemsVakat.add(notificationItem);
                 //for awesome notification display
@@ -389,15 +466,35 @@ class StateProviderVaktija extends ChangeNotifier {
 
           //schedule notifications
           for (ModelNotificationItem item in notificationItemsVakat) {
-            await NotificationService().showNotification(
+            NotificationService().showNotification(
               notificationItem: item,
             );
-            // await showNotificationScheduleAwesome(
-            //   scheduleDate: item.scheduleDate,
-            //   notificationContent: item.notificationContent,
-            // );
+          }
+
+          //scheduleAlarm
+          for (AlarmSettings alarmSettings in newAlarms) {
+            if (Platform.isAndroid) {
+              bool alarmPermission =
+                  await checkAndroidScheduleExactAlarmPermission();
+              if (alarmPermission) {
+                await Alarm.set(
+                  alarmSettings: alarmSettings,
+                );
+              }
+            } else {
+              await Alarm.set(
+                alarmSettings: alarmSettings,
+              );
+            }
           }
         }
+        removeSnackbarCurrent();
+        showSnackbarMessage(
+          message: 'Notifikacije podešene!',
+          duration: _snackDuration,
+          // margin: _snackbarMargin(context),
+          // behavior: SnackBarBehavior.floating,
+        );
       },
     );
   }

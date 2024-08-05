@@ -51,21 +51,28 @@ ModelNotificationItem buildNotificationTimer({
   String? title,
   required String body,
   required DateTime vakatDateTime,
-  DateTime? scheduleDateTime,
+  DateTime? vakatDateTimeNext,
+  //DateTime? scheduleDateTime,
   required bool isFirst,
   String? summaryText,
+  required int timeoutAfterMS
 }) {
-  TZDateTime scheduleDate = getScheduleDate(scheduleDateTime ?? vakatDateTime);
-  int seconds = vakatDateTime.difference(DateTime.now()).inSeconds;
+  TZDateTime scheduleDate = getScheduleDate(vakatDateTime);
+  //int milliseconds = vakatDateTime.difference(DateTime.now()).inMilliseconds;
+  // if(scheduleDateTime != null){
+  //   milliseconds = vakatDateTime.difference(scheduleDateTime).inMilliseconds;
+  // }
   ModelNotificationItem modelNotificationItem = ModelNotificationItem(
     id: id,
     title: title,
     body: body,
     scheduleTZDate: isFirst ? null : scheduleDate,
     androidNotificationDetails: buildAndroidNotificationDetailsTimer(
-      vakatTime: vakatDateTime,
+      vakatDateTime: vakatDateTime,
+      vakatDateTimeNext: vakatDateTimeNext,
       body: body,
-      isFirst: isFirst
+      isFirst: isFirst,
+      timeoutAfterMS: timeoutAfterMS,
       //summaryText: summaryText,
     ),
     notificationContent: null,
@@ -90,7 +97,7 @@ ModelNotificationItem buildNotificationVakat({
   required String body,
   required DateTime vakatDateTime,
   required DateTime scheduleDateTime,
-  required int timeoutAfter,
+  required int timeoutAfterMS,
 }) {
   TZDateTime scheduleTZDate = getScheduleDate(scheduleDateTime);
   ModelNotificationItem modelNotificationItem = ModelNotificationItem(
@@ -105,7 +112,7 @@ ModelNotificationItem buildNotificationVakat({
     //   body: body,
     // ),
     androidNotificationDetails: buildAndroidNotificationDetailsVakat(
-      timeoutAfter: timeoutAfter,
+      timeoutAfterMS: timeoutAfterMS,
     ),
     scheduleDate: scheduleDateTime,
     androidScheduleMode: AndroidScheduleMode.alarmClock,

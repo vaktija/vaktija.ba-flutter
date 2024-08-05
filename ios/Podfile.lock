@@ -1,6 +1,8 @@
 PODS:
   - alarm (0.0.1):
     - Flutter
+  - audio_session (0.0.1):
+    - Flutter
   - device_info_plus (0.0.1):
     - Flutter
   - Flutter (1.0.0)
@@ -15,6 +17,8 @@ PODS:
   - flutter_timezone (0.0.1):
     - Flutter
   - geolocator_apple (1.2.0):
+    - Flutter
+  - just_audio (0.0.1):
     - Flutter
   - Mute (0.6.1)
   - package_info_plus (0.4.5):
@@ -39,6 +43,7 @@ PODS:
 
 DEPENDENCIES:
   - alarm (from `.symlinks/plugins/alarm/ios`)
+  - audio_session (from `.symlinks/plugins/audio_session/ios`)
   - device_info_plus (from `.symlinks/plugins/device_info_plus/ios`)
   - Flutter (from `Flutter`)
   - flutter_compass_v2 (from `.symlinks/plugins/flutter_compass_v2/ios`)
@@ -47,6 +52,7 @@ DEPENDENCIES:
   - flutter_qiblah (from `.symlinks/plugins/flutter_qiblah/ios`)
   - flutter_timezone (from `.symlinks/plugins/flutter_timezone/ios`)
   - geolocator_apple (from `.symlinks/plugins/geolocator_apple/ios`)
+  - just_audio (from `.symlinks/plugins/just_audio/ios`)
   - package_info_plus (from `.symlinks/plugins/package_info_plus/ios`)
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
   - permission_handler_apple (from `.symlinks/plugins/permission_handler_apple/ios`)
@@ -63,6 +69,8 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   alarm:
     :path: ".symlinks/plugins/alarm/ios"
+  audio_session:
+    :path: ".symlinks/plugins/audio_session/ios"
   device_info_plus:
     :path: ".symlinks/plugins/device_info_plus/ios"
   Flutter:
@@ -79,6 +87,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_timezone/ios"
   geolocator_apple:
     :path: ".symlinks/plugins/geolocator_apple/ios"
+  just_audio:
+    :path: ".symlinks/plugins/just_audio/ios"
   package_info_plus:
     :path: ".symlinks/plugins/package_info_plus/ios"
   path_provider_foundation:
@@ -98,6 +108,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   alarm: 6c1f6a9688f94cd6bf8f104c67cc26e78c9d8d13
+  audio_session: 088d2483ebd1dc43f51d253d4a1c517d9a2e7207
   device_info_plus: 97af1d7e84681a90d0693e63169a5d50e0839a0d
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
   flutter_compass_v2: f7704b078814b705e76ae2bd48fe48ae6cd067df
@@ -106,6 +117,7 @@ SPEC CHECKSUMS:
   flutter_qiblah: f69eeb708d127a2634073ab1f27771c979928f50
   flutter_timezone: ffb07bdad3c6276af8dada0f11978d8a1f8a20bb
   geolocator_apple: 6cbaf322953988e009e5ecb481f07efece75c450
+  just_audio: baa7252489dbcf47a4c7cc9ca663e9661c99aafa
   Mute: 20135a96076f140cc82bfc8b810e2d6150d8ec7e
   package_info_plus: 58f0028419748fad15bf008b270aaa8e54380b1c
   path_provider_foundation: 2b6b4c569c0fb62ec74538f866245ac84301af46

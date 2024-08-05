@@ -1,23 +1,24 @@
-
-
 class VaktijaSettingsModel {
   //List<VakatSettingsModel> vaktovi;
   int? currentCity;
   int? currentCountry;
   bool? dzumaSpecial;
- // bool? zuhrTimeFixed;
+
+  // bool? zuhrTimeFixed;
   bool? vakatFieldHint;
   bool? permanentVaktija;
+  bool? permanentVaktijaDailyVakats;
 
-  VaktijaSettingsModel(
-      {
-      //required this.vaktovi,
-      this.currentCity = 77,
-      this.currentCountry = 9,
-      this.dzumaSpecial = false,
-     // this.zuhrTimeFixed = true,
-      this.vakatFieldHint = true,
-      this.permanentVaktija = false});
+  VaktijaSettingsModel({
+    //required this.vaktovi,
+    this.currentCity = 77,
+    this.currentCountry = 9,
+    this.dzumaSpecial = false,
+    // this.zuhrTimeFixed = true,
+    this.vakatFieldHint = true,
+    this.permanentVaktija = false,
+    this.permanentVaktijaDailyVakats = true
+  });
 
   factory VaktijaSettingsModel.fromJson(Map<String, dynamic> json) {
     return VaktijaSettingsModel(
@@ -26,6 +27,7 @@ class VaktijaSettingsModel {
       dzumaSpecial: json['dzumaSpecial'] ?? false,
       vakatFieldHint: json['vakatFieldHint'] ?? true,
       permanentVaktija: json['permanentVaktija'] ?? false,
+      permanentVaktijaDailyVakats: json['permanentVaktijaDailyVakats'] ?? true,
     );
   }
 
@@ -35,7 +37,8 @@ class VaktijaSettingsModel {
       'currentCountry': currentCountry,
       'dzumaSpecial': dzumaSpecial,
       'vakatFieldHint': vakatFieldHint,
-      'permanentVaktija': permanentVaktija
+      'permanentVaktija': permanentVaktija,
+      'permanentVaktijaDailyVakats': permanentVaktijaDailyVakats
     };
   }
 }

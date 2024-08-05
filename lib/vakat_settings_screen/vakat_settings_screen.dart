@@ -179,7 +179,8 @@ class VakatSettingsScreen extends StatelessWidget {
               VakatDeviceSilentField(
                 index: index,
               ),
-            ]
+            ],
+            gap32,
           ],
         ),
       ),

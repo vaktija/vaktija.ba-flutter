@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
 import 'package:vaktijaba_fl/app_theme/theme_data.dart';
+import 'package:vaktijaba_fl/components/glow_widget.dart';
 import 'package:vaktijaba_fl/components/models/vakat_settings_model.dart';
 import 'package:vaktijaba_fl/components/models/vaktija_settings_model.dart';
 import 'package:vaktijaba_fl/components/text_styles/text_body_small.dart';
@@ -13,6 +14,7 @@ import 'package:vaktijaba_fl/data/constants.dart';
 import 'package:vaktijaba_fl/data/data.dart';
 import 'package:vaktijaba_fl/function/check_dst.dart';
 import 'package:vaktijaba_fl/function/get_next_vakat.dart';
+import 'package:vaktijaba_fl/function/get_vakat_time_seconds.dart';
 import 'package:vaktijaba_fl/function/open_new_screen.dart';
 import 'package:vaktijaba_fl/vakat_settings_screen/vakat_settings_screen.dart';
 
@@ -30,18 +32,31 @@ class VakatField extends StatefulWidget {
 }
 
 class _VakatFieldState extends State<VakatField> {
+  bool checkIsCurrent({
+    required int nextVakatIndex,
+    required bool isNextVakat,
+  }) {
+
+    if (widget.index == 1) {
+      return false;
+    }
+    if (nextVakatIndex - 1 == widget.index ||
+        nextVakatIndex == 0 && widget.index == 5) {
+      return true;
+    }
+    return false;
+  }
+
   @override
   Widget build(BuildContext context) {
     double spacing = defPadding;
     double infoIconSize = 14.0;
     Color disabledColor = Theme.of(context).disabledColor;
-    Color disabledBgColor = Theme.of(context)
-        .colorScheme
-        .secondaryContainer;
+    Color disabledBgColor = Theme.of(context).colorScheme.secondaryContainer;
     EdgeInsets actionPadding = const EdgeInsets.symmetric(
         horizontal: defPadding, vertical: defPadding);
     DateTime now = DateTime.now();
-    int podneDefaultTime = 43200;
+    //int podneDefaultTime = 43200;
     bool dzuma = now.weekday == 5;
     int dan = now.day - 1;
     int mjesec = now.month - 1;
@@ -53,9 +68,8 @@ class _VakatFieldState extends State<VakatField> {
 
     VaktijaSettingsModel vaktijaSettingsModel =
         stateProviderVaktija.vaktijaSettings;
-
-    VakatSettingsModel vakatSettingsModel =
-        stateProviderVaktija.vaktovi[widget.index];
+    List<VakatSettingsModel> vaktovi = stateProviderVaktija.vaktovi;
+    VakatSettingsModel vakatSettingsModel = vaktovi[widget.index];
 
     bool specialDzuma = stateProviderVaktija.vaktijaSettings.dzumaSpecial!;
 
@@ -65,7 +79,7 @@ class _VakatFieldState extends State<VakatField> {
 
     bool hintActive = stateProviderVaktija.showHintField;
 
-    bool podneVrijemeFixed = vakatSettingsModel.fixedTime ?? false;
+    //bool podneVrijemeFixed = vakatSettingsModel.fixedTime ?? false;
 
     int grad = vaktijaSettingsModel.currentCity!;
 
@@ -77,16 +91,21 @@ class _VakatFieldState extends State<VakatField> {
       dstAddonTime,
     );
 
-    bool nextVakat = nextVakatIndex == widget.index ? true : false;
+    bool isNextVakat = nextVakatIndex == widget.index ? true : false;
     bool vakatNotification = vakatSettingsModel.showNotification!;
     bool vakatAlarm = vakatSettingsModel.alarmShow!;
     bool vakatDeviceSilent = vakatSettingsModel.deviceSilent!;
-    int vakatTime = widget.index == 2 && podneVrijemeFixed
-        ? podneDefaultTime + dstAddonTime
-        : vaktijaData['months'][mjesec]['days'][dan]['vakat'][widget.index] +
-            differences[grad]['months'][mjesec]['vakat'][widget.index] +
-            dstAddonTime;
-
+    int vakatTime = getVakatTimeSeconds(
+      vakatIndex: widget.index,
+      vaktovi: vaktovi,
+      vaktijaSettingsModel: vaktijaSettingsModel,
+    );
+    int vakatNextTime = getVakatTimeSeconds(
+        vakatIndex: widget.index == 5 ? 0 : widget.index + 1,
+        vaktovi: vaktovi,
+        vaktijaSettingsModel: vaktijaSettingsModel);
+    bool isCurrent = checkIsCurrent(
+        nextVakatIndex: nextVakatIndex, isNextVakat: isNextVakat);
     List<SlidableAction> actions = [
       SlidableAction(
         autoClose: true,
@@ -173,7 +192,8 @@ class _VakatFieldState extends State<VakatField> {
     ];
 
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: defPadding),
+      padding: EdgeInsets.symmetric(
+          vertical: isNextVakat || isCurrent ? 0.0 : defPadding),
       child: SlidableAutoCloseBehavior(
         closeWhenOpened: true,
         closeWhenTapped: true,
@@ -188,34 +208,50 @@ class _VakatFieldState extends State<VakatField> {
             ),
           ),
           child: ListTile(
-            tileColor: nextVakat
-                ? disabledBgColor
-                : null,
+            tileColor: isNextVakat ? disabledBgColor : null,
             contentPadding: EdgeInsets.only(
-                left: defaultPadding * (nextVakat ? 4 : 4),
+                left: defaultPadding * (isNextVakat || isCurrent ? 1 : 4),
                 right: defPadding * 3.5,
-                top: nextVakat ? defPadding : 0.0,
-                bottom: nextVakat ? defPadding * 1.5 : 0.0),
+                top: isNextVakat || isCurrent ? defPadding : 0.0,
+                bottom: isNextVakat || isCurrent ? defPadding * 1.5 : 0.0),
+            leading: isNextVakat || isCurrent
+                ? AspectRatio(
+                    aspectRatio: 1 / 1,
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: isCurrent
+                          ? const GlowWidget(
+                              size: defPadding * 1.5,
+                            )
+                          : const Icon(
+                              Icons.arrow_forward_rounded,
+                              size: defPadding * 3,
+                            ),
+                    ),
+                  )
+                : null,
             title: TextHeadlineSmall(
-                text: widget.index == 2 && dzuma
-                    ? 'Džuma'
-                    : vakatSettingsModel.vakatName,
-                color: nextVakat
+                text:
+                // widget.index == 2 && dzuma
+                //     ? 'Džuma'
+                //     :
+                vakatSettingsModel.vakatName,
+                color: isNextVakat
                     ? AppColors.colorGold
                     : Theme.of(context).textTheme.headlineSmall!.color!
                 //.withOpacity(1.0),
                 ),
             subtitle: Padding(
-              padding: EdgeInsets.only(top: nextVakat ? defPadding / 2 : 0.0),
+              padding: EdgeInsets.only(top: isNextVakat ? defPadding / 2 : 0.0),
               child: TextBodySmall(
                 text: vaktijaTimeLeft(
                   currentTime,
                   vakatTime,
-                  nextVakat,
+                  isNextVakat,
                 ),
-                italic: nextVakat ? false : true,
-                fontSize: nextVakat ? 20.0 : null,
-                fontWeight: nextVakat ? FontWeight.w700 : null,
+                italic: isNextVakat ? false : true,
+                fontSize: isNextVakat ? 20.0 : null,
+                fontWeight: isNextVakat ? FontWeight.w700 : null,
               ),
             ),
             trailing: Padding(
@@ -229,7 +265,7 @@ class _VakatFieldState extends State<VakatField> {
                     text: secondsToHHMM(
                       vakatTime,
                     ),
-                    color: nextVakat
+                    color: isNextVakat
                         ? Theme.of(context).textTheme.headlineMedium!.color
                         : null,
                   ),

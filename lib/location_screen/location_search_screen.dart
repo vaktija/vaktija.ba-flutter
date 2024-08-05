@@ -2,8 +2,10 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import 'package:vaktijaba_fl/app_theme/theme_data.dart';
 import 'package:vaktijaba_fl/components/divider/horizontal_divider.dart';
+import 'package:vaktijaba_fl/components/models/vaktija_settings_model.dart';
 import 'package:vaktijaba_fl/components/screen_loader.dart';
 import 'package:vaktijaba_fl/components/text_styles/text_body_medium.dart';
 import 'package:vaktijaba_fl/components/vaktija_location_list_field.dart';
@@ -97,6 +99,7 @@ class _LocationSearchScreenState extends State<LocationSearchScreen> {
   @override
   Widget build(BuildContext context) {
     bool isDarkModeOn = isDarkMode(context);
+    VaktijaSettingsModel vaktijaSettingsModel = Provider.of<StateProviderVaktija>(context).vaktijaSettings;
     return Scaffold(
       //backgroundColor: isDarkModeOn ? Colors.black : Colors.white,
       body: Column(
@@ -141,6 +144,7 @@ class _LocationSearchScreenState extends State<LocationSearchScreen> {
                     itemBuilder: (context, index) {
                       int locationIndex = int.parse(
                           listaGradova[index]['IlceID'].toString());
+                      //print(locationIndex);
                       var title = listaGradova[index]['IlceAdiEn'];
                       return LocationListField(
                         title: title,
@@ -150,6 +154,9 @@ class _LocationSearchScreenState extends State<LocationSearchScreen> {
                         length: listaGradova.length,
                         //closeFilter: widget.closeFilter,
                         onTap: () {
+                          vaktijaSettingsModel.currentCity = locationIndex;
+                          //print('novi id -> ${vaktijaSettingsModel.currentCity}');
+                          updateVaktijaSettings(context, vaktijaSettingsModel);
                           //setVaktijaLocation(context, locationIndex);
                           Navigator.pop(context);
                           widget.closeFilter();
@@ -184,8 +191,8 @@ class _LocationSearchScreenState extends State<LocationSearchScreen> {
                       //closeFilter: widget.closeFilter,
                       isRadioIcon: false,
                       onTap: () {
-                        // setVaktijaLocation(
-                        //     context, locationIndex);
+                        vaktijaSettingsModel.currentCity = locationIndex;
+                        updateVaktijaSettings(context, vaktijaSettingsModel);
                         Navigator.pop(context);
                         widget.closeFilter();
                       },

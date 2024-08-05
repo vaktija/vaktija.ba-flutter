@@ -51,7 +51,7 @@ void main() async {
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   runApp(
-    const VaktijaApp(),
+    VaktijaApp(),
   );
 }
 
@@ -121,19 +121,11 @@ initVaktijaData() async {
   vaktijaData = vaktijaDataBase['vaktija'];
 }
 
-class VaktijaApp extends StatefulWidget {
-  const VaktijaApp({Key? key}) : super(key: key);
+class VaktijaApp extends StatelessWidget {
+  final GlobalKey<ScaffoldMessengerState> rootScaffoldMessengerKey =
+      GlobalKey<ScaffoldMessengerState>();
 
-  @override
-  State<VaktijaApp> createState() => _VaktijaAppState();
-}
-
-class _VaktijaAppState extends State<VaktijaApp> {
-  @override
-  void initState() {
-    //NotificationController.startListeningNotificationEvents();
-    super.initState();
-  }
+  VaktijaApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -159,6 +151,7 @@ class _VaktijaAppState extends State<VaktijaApp> {
             // routes: <String, WidgetBuilder>{
             // //  HomeScreen.routeName: (_) => HomeScreen(),
             // },
+            //scaffoldMessengerKey: rootScaffoldMessengerKey,
             debugShowCheckedModeBanner: false,
             navigatorKey: NavigationService.navigatorKey,
             theme: appThemeLight(fontSizeMultiplier: fontSizeMultiplier),

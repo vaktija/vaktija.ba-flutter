@@ -186,7 +186,7 @@ AndroidNotificationDetails buildAndroidNotificationDetailsSilent({
 }
 
 AndroidNotificationDetails buildAndroidNotificationDetailsVakat({
-  int? timeoutAfter,
+  required int timeoutAfterMS,
 }) {
   return AndroidNotificationDetails(
     NotificationChannels.vakat.channelId,
@@ -194,7 +194,7 @@ AndroidNotificationDetails buildAndroidNotificationDetailsVakat({
     channelDescription: NotificationChannels.vakat.channelDescription,
     importance: Importance.high,
     priority: Priority.high,
-    //timeoutAfter: timeoutAfter,
+    timeoutAfter: timeoutAfterMS,
     showWhen: true,
     playSound: true,
     enableVibration: true,
@@ -215,12 +215,15 @@ AndroidNotificationDetails buildAndroidNotificationDetailsVakat({
 // }
 
 AndroidNotificationDetails buildAndroidNotificationDetailsTimer({
-  required DateTime vakatTime,
+  required DateTime vakatDateTime,
+  DateTime? vakatDateTimeNext,
   required String body,
   required bool isFirst,
   String? subtext,
   String? summaryText,
+  required int timeoutAfterMS
 }) {
+
   return AndroidNotificationDetails(
     NotificationChannels.vakatTimer.channelId,
     NotificationChannels.vakatTimer.channelName,
@@ -232,8 +235,8 @@ AndroidNotificationDetails buildAndroidNotificationDetailsTimer({
     chronometerCountDown: true,
     playSound: isFirst ? false: true,
     enableVibration: isFirst ? false : true,
-    when: vakatTime.millisecondsSinceEpoch,
-    timeoutAfter: vakatTime.difference(DateTime.now()).inMilliseconds,
+    when: (vakatDateTimeNext ?? vakatDateTime).millisecondsSinceEpoch,
+    timeoutAfter: timeoutAfterMS,
     subText: subtext,
     silent: isFirst ? true : false,
     ongoing: true,
@@ -277,10 +280,10 @@ class NotificationChannels {
     channelName: 'Vakat - timer',
     channelDescription: 'Vrijeme do narednog vakta',
   );
+}
 
-// static NotificationChannelAndroidModel vakatTimerPermanent =
-// NotificationChannelAndroidModel(
-//     channelId: 'vakat-timer-10',
-//     channelName: 'Vakat - timer new',
-//     channelDescription: 'Vrijeme do narednog vakta');
+class FixedNotificationId{
+  static int firstPermanenet = 1000;
+  static int idSilent = 10000;
+  static int idTimer = 11000;
 }

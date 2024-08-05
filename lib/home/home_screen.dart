@@ -2,13 +2,17 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:alarm/alarm.dart';
+import 'package:auto_start_flutter/auto_start_flutter.dart';
 //import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:disable_battery_optimization/disable_battery_optimization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sound_mode/permission_handler.dart';
 import 'package:vaktijaba_fl/components/alarm_dialogue.dart';
+import 'package:vaktijaba_fl/data/app_data.dart';
 import 'package:vaktijaba_fl/data/data.dart';
 import 'package:vaktijaba_fl/function/show_full_screen.dart';
 import 'package:vaktijaba_fl/home/battery_dialogue.dart';
@@ -36,7 +40,7 @@ class _HomeScreenState extends State<HomeScreen>
   int currentTab = 0;
   bool isRinging = false;
   bool rescheduleComplete = false;
-  final DateTime startDate = DateTime.now();
+  DateTime startDate = DateTime.now();
 
   @override
   void initState() {
@@ -57,19 +61,40 @@ class _HomeScreenState extends State<HomeScreen>
     // handleLocalNotification();
     checkBatteryOptimisation();
     initLocalNotifications();
+    if (Platform.isAndroid) {
+      initAutoStart();
+    }
     //loadNotificationsSchedule();
   }
 
+  Future<void> initAutoStart() async {
+    try {
+      //check auto-start availability.
+      var test = await (isAutoStartAvailable);
+      print(test);
+      //if available then navigate to auto-start setting page.
+      if (test ?? false) await getAutoStartPermission();
+    } on PlatformException catch (e) {
+      print(e);
+    }
+    if (!mounted) return;
+  }
+
   initLocalNotifications() async {
-    await NotificationService().init(
-      handleNotification: runScheduleTask
-    );
+    await NotificationService().init(handleNotification: runScheduleTask);
     await NotificationService().requestPermissions();
     loadNotificationsSchedule();
   }
 
   checkBatteryOptimisation() async {
     if (Platform.isAndroid) {
+      SharedPreferences sp = await SharedPreferences.getInstance();
+      bool hideBatteryDialogue =
+          sp.getBool(SpKeys.initHideBatteryDialogue) ?? false;
+      if (hideBatteryDialogue) {
+        return;
+      }
+
       bool batteryOptimisationDisabled =
           (await DisableBatteryOptimization.isBatteryOptimizationDisabled)!;
       bool doNotDisturbPermission =
@@ -79,6 +104,7 @@ class _HomeScreenState extends State<HomeScreen>
           context: context,
           child: BatteryDialogue(
             runSchedule: runScheduleTask,
+            hideBatteryDialogue: hideBatteryDialogue,
           ),
           dismissible: false,
         );
@@ -89,15 +115,20 @@ class _HomeScreenState extends State<HomeScreen>
   Future<void> handleAlarm(AlarmSettings alarm) async {
     isRinging = await Alarm.isRinging(alarm.id);
     if (isRinging) {
-      showFullscreen(
-        context: context,
-        child: AlarmDialogue(
-          alarmSettings: alarm,
-          runScheduleTask: runScheduleTask,
-        ),
-        bgOpacity: 0.95,
-        dismissible: false,
-      );
+      Future.delayed(Duration(milliseconds: 20), () {
+        showFullscreen(
+          context: context,
+          child: AlarmDialogue(
+            alarmSettings: alarm,
+            runScheduleTask: () {
+              isRinging = false;
+              runScheduleTask();
+            },
+          ),
+          bgOpacity: 0.95,
+          dismissible: false,
+        );
+      });
     }
   }
 
@@ -135,9 +166,15 @@ class _HomeScreenState extends State<HomeScreen>
     }
   }
 
-  runScheduleTask() {
-    Provider.of<StateProviderVaktija>(context, listen: false)
-        .scheduleVakat(delay: false);
+  runScheduleTask() async {
+    Provider.of<StateProviderVaktija>(context, listen: false).scheduleVakat(
+      delay: true,
+    );
+    Future.delayed(Duration(milliseconds: 300), () {
+      setState(() {
+        startDate = DateTime.now();
+      });
+    });
   }
 
   @override

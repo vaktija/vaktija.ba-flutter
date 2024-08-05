@@ -12,11 +12,12 @@ class Assets {
   static const String componentsAlarmDialogue = 'lib/components/alarm_dialogue.dart';
   static const String componentsAppBarTitle = 'lib/components/app_bar_title.dart';
   static const String componentsCalenderPickerWheel = 'lib/components/calender_picker_wheel.dart';
+  static const String componentsGlowWidget = 'lib/components/glow_widget.dart';
   static const String componentsHijraDateHome = 'lib/components/hijra_date_home.dart';
   static const String componentsHorizontalSeparator = 'lib/components/horizontal_separator.dart';
   static const String componentsLocationError = 'lib/components/location_error.dart';
   static const String componentsLocationFieldHome = 'lib/components/location_field_home.dart';
-  static const String componentsRegrenerateNotifications = 'lib/components/regenerate_notifications.dart';
+  static const String componentsRegenerateNotifications = 'lib/components/regenerate_notifications.dart';
   static const String componentsScreenLoader = 'lib/components/screen_loader.dart';
   static const String componentsToggleSwitch = 'lib/components/toggle_switch.dart';
   static const String componentsVakatAlarmField = 'lib/components/vakat_alarm_field.dart';
@@ -33,9 +34,13 @@ class Assets {
   static const String dividerHorizontalDivider = 'lib/components/divider/horizontal_divider.dart';
   static const String dividerVerticalDivider = 'lib/components/divider/vertical_divider.dart';
   static const String ezanAlarm = 'assets/ezan/alarm.mp3';
-  static const String ezanEzan = 'assets/ezan/ezan.mp3';
-  static const String ezanEzanSelimHosi = 'assets/ezan/ezan_selim_hosi.mp3';
+  static const String ezanIstanbul = 'assets/ezan/istanbul.mp3';
+  static const String ezanKairo = 'assets/ezan/kairo.mp3';
+  static const String ezanMadinah = 'assets/ezan/madinah.mp3';
+  static const String ezanMakkah = 'assets/ezan/makkah.mp3';
   static const String ezanNotification = 'assets/ezan/notification.mp3';
+  static const String ezanQuds = 'assets/ezan/quds.mp3';
+  static const String ezanSarajevo = 'assets/ezan/sarajevo.mp3';
   static const String functionAlarmPermission = 'lib/function/alarm_permission.dart';
   static const String functionCapitalizeLetter = 'lib/function/capitalize_letter.dart';
   static const String functionCheckDst = 'lib/function/check_dst.dart';
@@ -45,6 +50,7 @@ class Assets {
   static const String functionDateDataToString = 'lib/function/date_data_to_string.dart';
   static const String functionFormatDuration = 'lib/function/format_duration.dart';
   static const String functionGetNextVakat = 'lib/function/get_next_vakat.dart';
+  static const String functionGetVakatTimeSeconds = 'lib/function/get_vakat_time_seconds.dart';
   static const String functionLocationPermissionChecker = 'lib/function/location_permission_checker.dart';
   static const String functionMonthLength = 'lib/function/month_length.dart';
   static const String functionOpenFilterScreen = 'lib/function/open_filter_screen.dart';
@@ -52,6 +58,7 @@ class Assets {
   static const String functionSaveFunction = 'lib/function/save_function.dart';
   static const String functionSec2Hhmm = 'lib/function/sec_2_hhmm.dart';
   static const String functionShowFullScreen = 'lib/function/show_full_screen.dart';
+  static const String functionShowSnackbarMessage = 'lib/function/show_snackbar_message.dart';
   static const String functionSortListItems = 'lib/function/sort_list_items.dart';
   static const String functionVaktijaTimeLeft = 'lib/function/vaktija_time_left.dart';
   static const String generatedAssets = 'lib/generated/assets.dart';
@@ -100,6 +107,7 @@ class Assets {
   static const String textStylesTextHeadlineSmall = 'lib/components/text_styles/text_headline_small.dart';
   static const String textStylesTextListField = 'lib/components/text_styles/text_list_field.dart';
   static const String textStylesVakatTimeField = 'lib/components/text_styles/vakat_time_field.dart';
+  static const String vakatSettingsScreenAthanSelectDialogue = 'lib/vakat_settings_screen/athan_select_dialogue.dart';
   static const String vakatSettingsScreenVakatSettingsScreen = 'lib/vakat_settings_screen/vakat_settings_screen.dart';
   static const String vaktijaGradovi9 = 'assets/vaktija/gradovi_9.json';
   static const String vaktijaVaktija = 'assets/vaktija/vaktija.json';

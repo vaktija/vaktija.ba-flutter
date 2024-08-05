@@ -39,9 +39,11 @@ class LocationListField extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              TextBodyMedium(
-                text: title,
-                bold: false,
+              Expanded(
+                child: TextBodyMedium(
+                  text: title,
+                  bold: false,
+                ),
               ),
               Icon(
                 isChecked

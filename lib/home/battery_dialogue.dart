@@ -3,15 +3,20 @@ import 'dart:async';
 import 'package:android_intent_plus/android_intent.dart';
 import 'package:disable_battery_optimization/disable_battery_optimization.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sound_mode/permission_handler.dart';
 import 'package:vaktijaba_fl/app_theme/theme_data.dart';
 import 'package:vaktijaba_fl/components/text_styles/text_body_medium.dart';
 import 'package:vaktijaba_fl/components/text_styles/text_body_small.dart';
+import 'package:vaktijaba_fl/data/app_data.dart';
 import 'package:vaktijaba_fl/data/constants.dart';
 
 class BatteryDialogue extends StatefulWidget {
   final Function()? runSchedule;
-  const BatteryDialogue({super.key, this.runSchedule});
+  final bool? hideBatteryDialogue;
+
+  const BatteryDialogue(
+      {super.key, this.runSchedule, this.hideBatteryDialogue});
 
   @override
   State<BatteryDialogue> createState() => _BatteryDialogueState();
@@ -22,12 +27,14 @@ class _BatteryDialogueState extends State<BatteryDialogue> {
   bool batteryOptimisationDisabledManufacturer = false;
   bool doNotDisturbPermission = false;
   Timer _timer = Timer(const Duration(seconds: 0), () {});
+  bool hideDndDialogue = false;
 
   //bool autoStartEnabled = false;
 
   @override
   void initState() {
     super.initState();
+    hideDndDialogue = widget.hideBatteryDialogue ?? false;
     checkStatus();
   }
 
@@ -57,14 +64,23 @@ class _BatteryDialogueState extends State<BatteryDialogue> {
   }
 
   String title = 'Da bi aplikacija mogla ispravno raditi u pozadini, '
-      'potrebno je deaktivirati optimizaciju baterije za Vaktija.ba aplikaciju.';
+      'potrebno je odobriti sljedeće postavke za Vaktija.ba aplikaciju.';
+
+  updateShowDndDialogue() async {
+    setState(() {
+      hideDndDialogue = !hideDndDialogue;
+    });
+
+    SharedPreferences sp = await SharedPreferences.getInstance();
+    sp.setBool(SpKeys.initHideBatteryDialogue, hideDndDialogue);
+  }
 
   @override
   void dispose() {
     if (_timer.isActive) {
       _timer.cancel();
     }
-    if(widget.runSchedule != null){
+    if (widget.runSchedule != null) {
       widget.runSchedule!();
     }
     super.dispose();
@@ -164,9 +180,7 @@ class _BatteryDialogueState extends State<BatteryDialogue> {
                     right: defPadding,
                   ),
                   child: InkWell(
-                    onTap: doNotDisturbPermission
-                        ? null
-                        : checkDnB,
+                    onTap: doNotDisturbPermission ? null : checkDnB,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -191,7 +205,25 @@ class _BatteryDialogueState extends State<BatteryDialogue> {
                       ],
                     ),
                   ),
-                )
+                ),
+                if (widget.hideBatteryDialogue != null) ...[
+                  gap16,
+                  SizedBox(
+                    height: 60.0,
+                    // width: 330.0,
+                    child: CheckboxListTile(
+                      contentPadding: EdgeInsets.zero,
+                      activeColor: AppColors.colorAction,
+                      value: hideDndDialogue,
+                      onChanged: (value) {
+                        updateShowDndDialogue();
+                      },
+                      title: const TextBodySmall(
+                        text: 'Ne prikazuj više',
+                      ),
+                    ),
+                  ),
+                ],
               ],
             ),
           ),

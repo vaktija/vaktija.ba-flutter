@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:vaktijaba_fl/app_theme/theme_data.dart';
 import 'package:vaktijaba_fl/data/app_data.dart';
 import 'package:vaktijaba_fl/data/constants.dart';
+import 'package:vaktijaba_fl/function/show_snackbar_message.dart';
 import 'package:vaktijaba_fl/services/vaktija_state_provider.dart';
 
 class RegenerateNotifications extends StatefulWidget {
@@ -25,6 +26,7 @@ class _RegenerateNotificationsState extends State<RegenerateNotifications> {
                 onPressed: () {
                   Provider.of<StateProviderVaktija>(context, listen: false)
                       .scheduleVakat(delay: false);
+                  //showSnackbarMessage(context: context, message: 'Notifikacija sa vaktovima usklađena!');
                 },
                 icon: Icon(
                   Icons.sync_problem_outlined,
