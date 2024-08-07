@@ -18,7 +18,7 @@ class ThemeSettingsSwitch extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<String> themeModes = [
-      'Svjetla',
+      'Svijetla',
       'Auto/OS',
       'Tamna',
     ];
